@@ -131,4 +131,7 @@ if __name__ == '__main__':
     with app.app_context():
         database.create_all()  # Create tables if they don't exist
         print("Database and User table created successfully!")
-    app.run(debug=False)
+    
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
