@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!---------------->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>MemeHub - Profile</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">Meme<span>Hub</span></a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">🏠 Home</a>
+                <a href="{{ url_for('trending') }}">🔥 Trending</a>
+                <a href="{{ url_for('upload') }}">📤 Upload</a>
+                <a href="{{ url_for('profile') }}" class="active">👤 Profile</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="{{ url_for('logout') }}" class="logout-text">Logout</a>
+                <a href="{{ url_for('profile') }}" class="nav-profile">
+                    <img src="../static/images/profile-pic.png" alt="profile-pic">
+                </a>
+            </div>
+        </div>
+
+        <!--Shows on Mobile Screens-->
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('home') }}">🏠 Home</a>
+            <a href="{{ url_for('trending') }}">🔥 Trending</a>
+            <a href="{{ url_for('upload') }}">📤 Upload</a>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+
+        <!-- ── PROFILE CARD ── -->
+        <div class="profile-card">
+            <div class="profile-cover">
+                <img src="../static/images/cover-photo.png" alt="cover-photo">
+            </div>
+            <div class="profile-body">
+
+                <div class="profile-avatar-wrap">
+                    <div class="profile-avatar-large">
+                        <img src="../static/images/profile-pic.png" alt="profile-pic">
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn-edit">Edit Profile</button>
+                    <button class="upload-btn" style="width:auto;padding:8px 20px;font-size:13px;" onclick="window.location.href='upload.html'">+ Upload Meme</button>
+                </div>
+
+                <div class="profile-info">
+                    <div class="profile-name">{{ session.display_name }}</div>
+                    <div class="profile-handle">@{{ session.username }}. · Joined March 2026</div>
+                    <div class="profile-bio">
+                        1st year Information Technology Student. Building MemeHub as an HCI project.
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="profile-stat-number">3</span>
+                            <span class="profile-stat-label">Memes</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-number">4K</span>
+                            <span class="profile-stat-label">Followers</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-number">567</span>
+                            <span class="profile-stat-label">Following</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-number">10K</span>
+                            <span class="profile-stat-label">Total Likes</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── TABS ── -->
+        <div class="profile-tabs">
+            <button class="profile-tab active">🎭 My Memes</button>
+            <button class="profile-tab">❤️ Liked</button>
+            <button class="profile-tab">📌 Saved</button>
+        </div>
+
+        <!-- ── MY MEMES TAB ── -->
+        <div>
+            <div class="meme-grid">
+                <div class="meme-grid-item">
+                    [ Meme 1 ]
+                </div>
+                <div class="meme-grid-item">
+                    [ Meme 2 ]
+                </div>
+                <div class="meme-grid-item">
+                    [ Meme 3 ]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>@ 2026 MemeHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

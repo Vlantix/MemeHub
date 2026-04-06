@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!---------------->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>MemeHub - Home</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">Meme<span>Hub</span></a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="active">🏠 Home</a>
+                <a href="{{ url_for('trending') }}">🔥 Trending</a>
+                <a href="{{ url_for('upload') }}">📤 Upload</a>
+                <a href="{{ url_for('profile') }}">👤 Profile</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="{{ url_for('logout') }}" class="logout-text">Logout</a>
+                <a href="{{ url_for('profile') }}" class="nav-profile">
+                    <img src="../static/images/profile-pic.png" alt="profile-pic">
+                </a>
+            </div>
+        </div>
+
+        <!--Shows on Mobile Screens-->
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('home') }}">🏠 Home</a>
+            <a href="{{ url_for('trending') }}">🔥 Trending</a>
+            <a href="{{ url_for('upload') }}">📤 Upload</a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="page-container">
+        <!-- Feed Section -->
+        <div class="main-content">
+            <h1 class="page-title">🏠 Home</h1>
+            <div class="feed">
+                <!-- Post 1 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="../static/images/profile.jpg" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>John Doe</h4>
+                            <p>2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>At the Mario Movie Premiere</p>
+                        <div class="post-image">
+                            <img src="../static/images/meme1.jpg" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">shigeru miyamoto</span>
+                            <span class="post-tag">jack black</span>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>❤️ 1.2K likes</span>
+                        <span>💬 34 comments</span>
+                        <span>🔄 567 shares</span>
+                    </div>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="../static/images/profile.jpg" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>@new_meme_who_dis</h4>
+                            <p>5 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>"I rest my case, Your Honor"</p>
+                        <div class="post-image">
+                            <img src="../static/images/meme2.jpg" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">gaming</span>
+                            <span class="post-tag">meme</span>
+                            <span class="post-tag">valve</span>
+                            <span class="post-tag">rothschild</span>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>❤️ 123 likes</span>
+                        <span>💬 45 comments</span>
+                        <span>🔄 678 shares</span>
+                    </div>
+                </div>
+
+                <!-- Post 3 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="../static/images/profile.jpg" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>@lofi_memer</h4>
+                            <p>1 day ago</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Purple Onions</p>
+                        <div class="post-image">
+                            <img src="../static/images/meme3.jpg" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">meme</span>
+                            <span class="post-tag">funny</span>
+                            <span class="post-tag">facts</span>
+                            <span class="post-tag">random</span>
+                            <span class="post-tag">onions</span>   
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>❤️ 123 likes</span>
+                        <span>💬 45 comments</span>
+                        <span>🔄 678 shares</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Trending Tags Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Trending Tags</h3>
+                <div class="tags">
+                    <span class="tag">#Funny</span>
+                    <span class="tag">#Gaming</span>
+                    <span class="tag">#Animals</span>
+                    <span class="tag">#Relatable</span>
+                    <span class="tag">#Viral</span>
+                    <span class="tag">#DarkHumor</span>
+                </div>
+            </div>
+            
+            <!-- Suggested Creators Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Suggested Creators This Week</h3>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="../static/images/profile.jpg" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@stonks_only</h4>
+                        <p>12K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="../static/images/profile.jpg" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@memes_stealer</h4>
+                        <p>3.4K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="../static/images/profile.jpg" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@fail_army_jake</h4>
+                        <p>5.6K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>@ 2026 MemeHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

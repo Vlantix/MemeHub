@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!---------------->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>MemeHub - Register</title>
+</head>
+<body class="auth-page">
+    <div class="register-container">
+        <div class="logo">
+            MEME<span>HUB</span>
+        </div>
+        
+        <div class="welcome-text">
+            Join the meme community today!
+        </div>
+        <div class="subtitle">
+            Create your account to get started.
+        </div>
+        
+        <form action="/register" method="POST">
+            <!--- FLASH MESSAGES --->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-group">
+                <label for="displayName">Display name</label>
+                <input type="text" name="display-name" placeholder="Your display name">
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Choose a username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Create a password">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirm-password" placeholder="Re-enter password">
+            </div>
+            
+            <button type="submit" class="register-btn">Create Account</button>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="{{ url_for('login') }}">Log in here</a>
+        </div>
+    </div>
+</body>
+</html>
