@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 #Database configuration
 app.config['SECRET_KEY'] = 'your-secret-key-here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if os.environ.get('RENDER'):
@@ -30,9 +30,6 @@ def register():
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '')
         confirm_password = request.form.get('confirm-password', '')
-
-        print(f"Display name: '{display_name}'")
-        print(f"Length: {len(display_name)}")
 
         if not display_name:
             flash("Display name is required", "error")
@@ -107,31 +104,42 @@ def login():
 def logout():
     session.clear()
     flash("You have been logout", "info")
-    return redirect(url_for('landing'))
+    return redirect(url_for('login'))
 
 @app.route('/home')
 def home():
+    if not session.get('user_id'):
+        return redirect(url_for('login'))
+    
     return render_template('index.html')
 
 @app.route('/trending')
 def trending():
+    if not session.get('user_id'):
+        return redirect(url_for('login'))
+    
     return render_template('trending.html')
 
 @app.route('/upload')
 def upload():
+    if not session.get('user_id'):
+        return redirect(url_for('login'))
+    
     return render_template('upload.html')
 
 @app.route('/profile')
 def profile():
+    if not session.get('user_id'):
+        return redirect(url_for('login'))
+    
     return render_template('profile.html')
-
-
 
 if __name__ == '__main__':
     with app.app_context():
         database.create_all()  # Create tables if they don't exist
         print("Database and User table created successfully!")
     
+    # Needed For Render to Publish Live
     import os
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)
