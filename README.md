@@ -24,7 +24,7 @@ The app uses SQLite. The database is created automatically on first run.
 - `/` - Landing page
 - `/register` - User registration
 - `/login` - User login
-- `/home` - Main feed
+- `/feed` - Main feed
 - `/upload` - Upload new meme
 - `/profile` - User profile
 - `/trending` - Trending memes
