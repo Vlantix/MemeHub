@@ -1,6 +1,6 @@
 # Dynamic MemeHub
 
-A Flask-based meme sharing website.
+A Flask-based meme sharing website. Created for our final project in Human Computer Interaction 1.
 
 ## Setup
 
