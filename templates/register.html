@@ -8,14 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!---------------->
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
     <title>MemeHub - Register</title>
 </head>
 <body class="auth-page">
     <div class="register-container">
-        <div class="logo">
-            MEME<span>HUB</span>
+        <div class="logo-wrapper">
+            <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+            <span class="logo-text">Meme<span>Hub</span></span>
         </div>
         
         <div class="welcome-text">
@@ -41,22 +42,27 @@
 
             <div class="form-group">
                 <label for="displayName">Display name</label>
-                <input type="text" name="display-name" placeholder="Your display name">
+                <input type="text" name="display-name" value="{{ display_name }}" class="{% if error_display_name %}error{% endif %}" placeholder="Your display name">
             </div>
             
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" name="username" placeholder="Choose a username">
+                <input type="text" name="username" value="{{ username }}" class="{% if error_username %}error{% endif %}" placeholder="Enter a username">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" value="{{ email }}" class="{% if error_email %}error{% endif %}" placeholder="Enter your email">
             </div>
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="Create a password">
+                <input type="password" name="password" class="{% if error_password %}error{% endif %}" placeholder="Create a password">
             </div>
             
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" name="confirm-password" placeholder="Re-enter password">
+                <input type="password" name="confirm-password" class="{% if error_confirm_password %}error{% endif %}" placeholder="Re-enter password">
             </div>
             
             <button type="submit" class="register-btn">Create Account</button>

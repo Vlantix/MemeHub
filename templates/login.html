@@ -8,14 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!---------------->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>MemeHub - Login</title>
 </head>
 <body class="auth-page">
     <div class="login-container">
-        <div class="logo">
-            MEME<span>HUB</span>
+        <div class="logo-wrapper">
+                <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
         </div>
         
         <div class="welcome-text">
@@ -40,16 +41,17 @@
             {% endwith %}
 
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" placeholder="Enter your username">
+                <label for="username">Username or Email</label>
+                <input type="text" name="username" value="{{ username_or_email }}" class="{% if error_username %}error{% endif %}"
+                placeholder="Enter your username or email">
             </div>
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="Enter your password">
+                <input type="password" name="password" class="{% if error_password %}error{% endif %}" placeholder="Enter your password">
 
                 <div class="forgot-password">
-                    <a href="forgot-pwd.html">Forgot Password?</a>
+                    <a href="#" onclick="alert('Forgot Password functionality not implemented yet.')">Forgot Password?</a>
                 </div>
             </div>
 

@@ -1,0 +1,27 @@
+/* ================================================ */
+/* 10. FOOTER - footer.css
+/* ================================================ */
+.site-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    padding: 16px 20px;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-container p {
+    font-size: 13px;
+    color: var(--text-muted);
+}

@@ -1,0 +1,23 @@
+/* Core Variables and Reset */
+@import url('base.css');
+
+/* Reusable Components */
+@import url('components.css');
+
+/* Layout Components */
+@import url('navbar.css');
+@import url('footer.css');
+
+/* Page-specific styles */
+@import url('landing.css');
+@import url('auth.css');
+@import url('feed.css');
+@import url('trending.css');
+@import url('upload.css');
+@import url('profile.css');
+
+/* Interactive Components */
+@import url('modal.css');
+
+/* Responsive Design */
+@import url('responsive.css');

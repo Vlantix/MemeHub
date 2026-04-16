@@ -1,0 +1,47 @@
+/* ================================================ */
+/* 1. VARIABLES & RESET
+/* ================================================ */
+:root {
+    --font-body:      'Nunito', sans-serif;
+    --font-display:   'Bebas Neue', sans-serif;
+
+    --bg-base:        #0A0A0A;
+    --bg-surface:     #121212;
+    --bg-elevated:    #1E1E1E;
+    --bg-muted:       #2A2A2A;
+ 
+    --accent:         #6366F1;
+    --accent-hover:   #818CF8;
+    --accent-gradient: linear-gradient(135deg, #6366F1, #8B5CF6);
+    
+    --border:         #2A2A2A;
+    --radius-sm:      12px;
+    --radius-md:      16px;
+    --radius-lg:      24px;
+
+    --text-primary:   #FFFFFF;
+    --text-secondary: #A1A1AA;
+    --text-muted:     #71717A;
+ 
+    --transition:     all 0.2s ease;
+
+    --shadow:         0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    font-family: var(--font-body);
+    background: var(--bg-base);
+    min-height: 100vh;
+}
+
+.page-container,
+.profile-container,
+.upload-page {
+    flex: 1;
+}

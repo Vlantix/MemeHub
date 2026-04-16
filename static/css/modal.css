@@ -1,0 +1,143 @@
+/* ================================================ */
+/* MODAL STYLES                                     */
+/* ================================================ */
+
+/* ============= EDIT PROFILE MODAL ============= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: var(--bg-surface);
+    margin: 10% auto;
+    width: 90%;
+    max-width: 500px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s ease;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+}
+
+.close-modal {
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: var(--transition);
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: var(--accent);
+}
+
+.modal .form-group {
+    padding: 16px 24px;
+    margin-bottom: 0;
+}
+
+.modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.modal .form-group input,
+.modal .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.modal .form-group input:focus,
+.modal .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.modal-actions {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-actions .btn-save,
+.modal-actions .btn-cancel {
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    transition: var(--transition);
+}
+
+.modal-actions .btn-save {
+    background: var(--accent);
+    color: white;
+}
+
+.modal-actions .btn-save:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.modal-actions .btn-cancel {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.modal-actions .btn-cancel:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* ======= MODAL ANIMATIONS ======= */
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

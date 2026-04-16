@@ -7,7 +7,7 @@
     <!--GOOGLE FONTS-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     
     <title>MemeHub - Trending</title>
 </head>
@@ -15,16 +15,20 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('home') }}" class="logo">Meme<span>Hub</span></a>
+            <a href="{{ url_for('feed') }}" class="logo-wrapper">
+                <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </a>
+
             <div class="nav-links">
-                <a href="{{ url_for('home') }}">🏠 Home</a>
+                <a href="{{ url_for('feed') }}">🏠 Home</a>
                 <a href="{{ url_for('trending') }}" class="active">🔥 Trending</a>
                 <a href="{{ url_for('upload') }}">📤 Upload</a>
                 <a href="{{ url_for('profile') }}">👤 Profile</a>
             </div>
 
             <div class="nav-right">
-                <a href="{{ url_for('logout') }}" class="logout-text">Logout</a>
+                <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 <a href="{{ url_for('profile') }}" class="nav-profile">
                     <img src="../static/images/profile-pic.png" alt="profile-pic">
                 </a>
@@ -33,8 +37,8 @@
 
         <!--Shows on Mobile Screens-->
         <div class="mobile-nav-links">
-            <a href="{{ url_for('home') }}">🏠 Home</a>
-            <a href="{{ url_for('trending') }}">🔥 Trending</a>
+            <a href="{{ url_for('feed') }}">🏠 Home</a>
+            <a href="{{ url_for('trending') }}" class="active">🔥 Trending</a>
             <a href="{{ url_for('upload') }}">📤 Upload</a>
         </div>
     </nav>
@@ -58,7 +62,7 @@
                 <div class="rank-number gold">#1</div>
                 <div class="rank-info">
                     <h4>Damn you food</h4>
-                    <p>by @username1 · 2 hours ago</p>
+                    <p>by @dank_memer · 2 hours ago</p>
                 </div>
                 <div class="rank-stat">
                     <span class="upvotes">❤️ 12.3K</span>
@@ -70,7 +74,7 @@
                 <div class="rank-number silver">#2</div>
                 <div class="rank-info">
                     <h4>"I rest my case, Your Honor"</h4>
-                    <p>by @username2 · 4 hours ago</p>
+                    <p>by @gaming_lord · 4 hours ago</p>
                 </div>
                 <div class="rank-stat">
                     <span class="upvotes">❤️ 12.3K</span>
@@ -82,7 +86,7 @@
                 <div class="rank-number bronze">#3</div>
                 <div class="rank-info">
                     <h4>The Jäger-Bomber</h4>
-                    <p>by @username3 · 6 hours ago</p>
+                    <p>by @midnight_memes · 6 hours ago</p>
                 </div>
                 <div class="rank-stat">
                     <span class="upvotes">❤️ 12.3K</span>
@@ -90,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- Feed -->
             <div class="feed">
 
                 <div class="post-card">
@@ -116,9 +119,9 @@
                         </div>
                     </div>
                     <div class="post-stats">
-                        <span>❤️ 12.3</span>
+                        <span>🤍 12.3</span>
                         <span>💬 678</span>
-                        <span>🔄 Share</span>
+                        <span>📌 Save</span>
                     </div>
                 </div>
 
@@ -144,9 +147,9 @@
                         </div>
                     </div>
                     <div class="post-stats">
-                        <span>❤️ 12.3</span>
+                        <span>🤍 12.3</span>
                         <span>💬 678</span>
-                        <span>🔄 Share</span>
+                        <span>📌 Save</span>
                     </div>
                 </div>
 
@@ -173,9 +176,9 @@
                         </div>
                     </div>
                     <div class="post-stats">
-                        <span>❤️ 12.3</span>
+                        <span>🤍 12.3</span>
                         <span>💬 678</span>
-                        <span>🔄 Share</span>
+                        <span>📌 Save</span>
                     </div>
                 </div>
 
@@ -275,7 +278,7 @@
 
     <footer class="site-footer">
         <div class="footer-container">
-            <p>@ 2026 MemeHub. All rights reserved.</p>
+            <p>&copy; 2026 MemeHub. All rights reserved.</p>
         </div>
     </footer>
 </body>

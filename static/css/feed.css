@@ -1,0 +1,51 @@
+/* ================================================ */
+/* FEED PAGE STYLES
+/* ================================================ */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 90px 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    flex: 1;
+}
+
+.main-content {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+/* ================================================ */
+/* MOBILE NAV STYLES
+/* ================================================ */
+/* Mobile menu - hidden by default */
+.mobile-nav-links {
+    display: none;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    padding: 10px;
+    gap: 16px;
+    justify-content: center;
+}
+
+.mobile-nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.mobile-nav-links a.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+}

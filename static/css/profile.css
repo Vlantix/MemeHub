@@ -1,0 +1,312 @@
+/* ================================================ */
+/*      PROFILE PAGE
+/* ================================================ */
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 90px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.profile-cover {
+    height: 160px;
+    background: var(--accent-gradient);
+    overflow: hidden;
+}
+
+.profile-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-body {
+    padding: 0 28px 28px;
+    position: relative;
+}
+
+.profile-avatar-wrap {
+    position: absolute;
+    top: -44px;
+    left: 28px;
+}
+
+.profile-avatar-large {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    border: 4px solid var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+    gap: 10px;
+}
+
+.profile-actions .btn-edit,
+.profile-actions .upload-btn {
+    width: auto;
+    display: inline-block;
+}
+
+.profile-actions .upload-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-edit {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-edit:focus { outline: none; }
+
+.btn-edit:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.profile-info { margin-top: 52px; }
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.profile-handle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.profile-bio {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 560px;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.profile-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-stat-number {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.profile-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Profile Tabs */
+.profile-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 6px;
+}
+
+.profile-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.profile-tab:hover { color: var(--text-primary); }
+
+.profile-tab.active {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+/* Meme Grid */
+.meme-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.meme-grid-item {
+    aspect-ratio: 1;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.meme-grid-item:hover { border-color: var(--accent); }
+.meme-grid-item:hover .meme-grid-overlay { opacity: 1; }
+
+.meme-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    opacity: 0;
+    transition: var(--transition);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Empty State */
+.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.empty-state-icon { font-size: 40px; }
+
+.empty-state p {color: var(--text-muted); font-size: 14px; }
+
+/* Edit Profile */
+.edit-profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 140px);
+    padding: 40px 20px;
+}
+
+.edit-profile-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: var(--shadow);
+}
+
+.edit-profile-card .logo {
+    font-size: 36px;
+    text-align: center;
+}
+
+.edit-profile-card .welcome-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.edit-profile-card .subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.edit-profile-card .form-group {
+    margin-bottom: 24px;
+}
+
+.edit-profile-card .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.edit-profile-card .form-group input,
+.edit-profile-card .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.edit-profile-card .form-group input:focus,
+.edit-profile-card .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}

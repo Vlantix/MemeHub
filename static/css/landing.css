@@ -1,0 +1,110 @@
+/* ================================================ */
+/* LANDING PAGE STYLES
+/* ================================================ */
+body.landing-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.landing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 40px 80px;
+    text-align: center;
+}
+
+/* Hero Section */
+.hero-title {
+    font-size: 64px;
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--text-primary);
+}
+
+.hero-title span {
+    background: var(--accent-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CTA Buttons */
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 80px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 14px 32px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.feature-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 32px;
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.feature-title {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.feature-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.5;
+}

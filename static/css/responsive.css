@@ -1,0 +1,158 @@
+/* TABLET: 1024px and below */
+@media (max-width: 1024px) {
+    .navbar { padding: 12px 24px; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 14px; }
+    .mobile-nav-links { display: none; }
+ 
+    .page-container {
+        grid-template-columns: 1fr 280px;
+        gap: 20px;
+        padding: 100px 24px 32px;
+    }
+ 
+    .profile-container { padding: 100px 24px 40px; }
+    .upload-page { padding: 100px 24px 40px; }
+    .upload-page .upload-grid,
+    .upload-grid { grid-template-columns: 1fr 280px; }
+    .landing-container { padding: 120px 24px 60px; }
+    .hero-title { font-size: 52px; }
+    .features-grid { gap: 24px; }
+}
+ 
+/* MOBILE: 768px and below */
+@media (max-width: 768px) {
+    .navbar { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .logo-text { display: none;}
+
+    .logo-image { width: 36px; height: 36px; }
+
+    .mobile-nav-links {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border);
+        padding: 10px;
+        z-index: 100;
+    }
+
+    .page-container,
+    .profile-container,
+    .upload-page,
+    .landing-container,
+    body.auth-page {
+        padding-bottom: 70px;
+    }
+ 
+    /* Landing Page */
+    .landing-container { padding: 100px 20px 76px; }
+    .hero-title { font-size: 40px; }
+    .hero-subtitle { font-size: 16px; margin-bottom: 32px; }
+ 
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 48px;
+    }
+ 
+    .btn-primary, .btn-secondary { width: 100%; max-width: 280px; text-align: center; }
+ 
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 40px;
+    }
+ 
+    .feature-card { padding: 24px; }
+ 
+    /* Auth Pages */
+    .login-container,
+    .register-container {
+        padding: 32px 24px;
+        border-radius: var(--radius-md);
+    }
+ 
+    .login-container .logo { font-size: 36px; }
+    .register-container .logo { font-size: 28px; }
+ 
+    /* Home / Trending */
+    .page-container {
+        grid-template-columns: 1fr;
+        padding: 84px 16px 76px;
+        gap: 20px;
+    }
+ 
+    .sidebar { position: static; order: 2; }
+    .main-content { padding: 20px 16px; }
+ 
+    /* Trending Page */
+    .rank-banner { flex-wrap: wrap; gap: 10px; padding: 14px 16px; }
+    .rank-stat { flex-direction: row; align-items: center; gap: 12px; width: 100%; }
+ 
+    .filter-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 12px;
+        gap: 6px;
+    }
+    .filter-tabs::-webkit-scrollbar { display: none; }
+    .filter-tab { white-space: nowrap; padding: 8px 14px; font-size: 13px; }
+ 
+    /* Post Cards */
+    .post-stats { gap: 16px; font-size: 13px; }
+    .post-header { gap: 10px; }
+    .trending-badge { font-size: 11px; padding: 3px 8px; }
+ 
+    /* Upload Page */
+    .upload-page { padding: 84px 16px 76px; }
+    .upload-page .upload-grid,
+    .upload-grid { grid-template-columns: 1fr; }
+    .right-col { order: 2; }
+    .visibility-options { flex-direction: column; gap: 8px; }
+    .dropzone { padding: 28px 16px; }
+    .dropzone-icon { font-size: 36px; }
+ 
+    /* Profile Page */
+    .profile-container { padding: 84px 16px 76px; gap: 16px; }
+    .profile-cover { height: 120px; }
+    .profile-body { padding: 0 16px 20px; }
+    .profile-avatar-wrap { top: -36px; left: 16px; }
+    .profile-avatar-large { width: 72px; height: 72px; font-size: 26px; }
+    .profile-info { margin-top: 44px; }
+    .profile-name { font-size: 18px; }
+    .profile-stats { gap: 16px; flex-wrap: wrap; }
+    .profile-stat-number { font-size: 16px; }
+    .profile-actions { padding-top: 8px; }
+ 
+    .profile-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .profile-tabs::-webkit-scrollbar { display: none; }
+    .profile-tab { white-space: nowrap; font-size: 13px; padding: 10px 12px; }
+ 
+    .meme-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}
+
+/* SMALL PHONES: 480px and below */
+@media (max-width: 480px) {
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 15px; }
+    .page-title { font-size: 22px; }
+    .post-stats { flex-wrap: wrap; gap: 12px; }
+    .post-tags { gap: 6px; }
+    .post-tag { font-size: 11px; padding: 3px 10px; }
+    .rank-number { font-size: 28px; min-width: 36px; }
+    .widget { padding: 16px; }
+    .profile-stats { gap: 12px; }
+    .profile-stat-number { font-size: 15px; }
+    .tag-options { gap: 8px; }
+    .tag-option { font-size: 12px; padding: 6px 12px; }
+}
