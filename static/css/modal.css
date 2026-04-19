@@ -17,13 +17,16 @@
 
 .modal-content {
     background: var(--bg-surface);
-    margin: 10% auto;
     width: 90%;
     max-width: 500px;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     animation: slideDown 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .modal-header {
@@ -133,11 +136,11 @@
 /* ======= MODAL ANIMATIONS ======= */
 @keyframes slideDown {
     from {
-        transform: translateY(-50px);
+        transform: translate(-50%, -60%);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translate(-50%, -50%);
         opacity: 1;
     }
 }

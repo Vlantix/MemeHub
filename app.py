@@ -17,7 +17,7 @@ else:
     # Local development
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
-UPLOAD_FOLDER = 'static/images'
+UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 def allowed_file(filename):
@@ -47,7 +47,6 @@ def time_ago(date):
 
 # Make available to templates
 app.jinja_env.globals.update(time_ago=time_ago)
-
 
 #Initialize the database with the Flask app
 database.init_app(app)
@@ -252,44 +251,46 @@ def create_post():
     if not session.get('user_id'):
         flash("Session Expired! Please login", "warning")
         return redirect(url_for('login'))
-
-
-    caption = request.form.get('caption', '')
-    category = request.form.get('category', '')
-    visibility = request.form.get('visibility', 'public')
-    tags_list = request.form.getlist('tags')  # Get all selected tags
     
-    # Convert tags list to comma-separated string
-    tags_string = ','.join(tags_list) if tags_list else None
-
     if 'meme_image' not in request.files:
         flash("No image selected", "error")
         return redirect(url_for('upload'))
     
     file = request.files['meme_image']
     
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        unique_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{filename}"
-        filepath = os.path.join(UPLOAD_FOLDER, unique_filename)
-        file.save(filepath)
-        
-        new_post = Post(
-            image_filename=unique_filename,
-            caption=caption,
-            category=category,
-            visibility=visibility,
-            tags=tags_string,
-            user_id=session['user_id']
-        )
+    if not file or not allowed_file(file.filename):
+        flash("Invalid file type. Allowed: png, jpg, jpeg, gif, webp", "error")
+        return redirect(url_for('upload'))
 
-        database.session.add(new_post)
-        database.session.commit()
-        
-        flash('Meme uploaded successfully!', 'success')
-        return redirect(url_for('feed'))
+    caption = request.form.get('caption', '')
+    category = request.form.get('category', '')
+    visibility = request.form.get('visibility', 'public')
+    tags_list = request.form.get('tags', '') or None
+
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+
+    filename = secure_filename(file.filename)
+    unique_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{filename}"
+    filepath = os.path.join(UPLOAD_FOLDER, unique_filename)
+    file.save(filepath)
     
-    return render_template('upload.html')
+    new_post = Post(
+        image_filename=unique_filename,
+        caption=caption,
+        category=category,
+        visibility=visibility,
+        tags=tags_list,
+        user_id=session['user_id']
+    )
+
+    database.session.add(new_post)
+    database.session.commit()
+    
+    flash('Meme uploaded successfully!', 'success')
+    return redirect(url_for('feed'))
+    
+
 
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
@@ -339,7 +340,7 @@ def profile():
                            user_posts=user_posts,
                            post_count=post_count)
 
-@app.route('/update_profile', methods=['POST'])
+@app.route('/edit_profile', methods=['POST'])
 def edit_profile():
     if not session.get('user_id'):
         flash("Session Expired! Please login")

@@ -4,7 +4,7 @@ A full-stack web application where users can share, discover, and manage memes. 
 
 ## Live Demo 🌐
 
-[View Live Site](https://your-render-url.onrender.com)
+[View Live Site](https://memehub-hci-project.onrender.com)
 
 ---
 

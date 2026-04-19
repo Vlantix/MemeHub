@@ -13,6 +13,7 @@ body.landing-page {
     margin: 0 auto;
     padding: 140px 40px 80px;
     text-align: center;
+    flex: 1;
 }
 
 /* Hero Section */

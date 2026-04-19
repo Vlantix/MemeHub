@@ -16,7 +16,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('feed') }}" class="logo-wrapper">
-                <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+                <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeHub Logo" class="logo-image">
                 <span class="logo-text">Meme<span>Hub</span></span>
             </a>
 
@@ -30,7 +30,7 @@
             <div class="nav-right">
                 <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 <a href="{{ url_for('profile') }}" class="nav-profile">
-                    <img src="../static/images/profile-pic.png" alt="profile-pic">
+                    <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="profile-pic">
                 </a>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 <div class="post-card">
                     <div class="post-header">
                         <div class="avatar">
-                            <img src="../static/images/profile.jpg" alt="profile picture">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                         </div>
                         <div class="post-info">
                             <h4>@dank_memer</h4>
@@ -110,7 +110,7 @@
                     <div class="post-content">
                         <p>Damn you food</p>
                         <div class="post-image">
-                            <img src="../static/images/meme4.jpg" alt="Meme Image">
+                            <img src="{{ url_for('static', filename='images/meme4.jpg') }}" alt="Meme Image">
                         </div>
                         <div class="post-tags">
                             <span class="post-tag">#tags</span>
@@ -128,7 +128,7 @@
                 <div class="post-card">
                     <div class="post-header">
                         <div class="avatar">
-                            <img src="../static/images/profile.jpg" alt="profile picture">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                         </div>
                         <div class="post-info">
                             <h4>@gaming_lord</h4>
@@ -139,7 +139,7 @@
                     <div class="post-content">
                         <p>"I rest my case, Your Honor"</p>
                         <div class="post-image">
-                            <img src="../static/images/meme2.jpg" alt="Meme Image">
+                            <img src="{{ url_for('static', filename='images/meme2.jpg') }}" alt="Meme Image">
                         </div>
                         <div class="post-tags">
                             <span class="post-tag">#meme</span>
@@ -156,7 +156,7 @@
                 <div class="post-card">
                     <div class="post-header">
                         <div class="avatar">
-                            <img src="../static/images/profile.jpg" alt="profile picture">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                         </div>
                         <div class="post-info">
                             <h4>@midnight_memes</h4>
@@ -167,7 +167,7 @@
                     <div class="post-content">
                         <p></p>
                         <div class="post-image">
-                            <img src="../static/images/meme6.jpg" alt="Meme Image">
+                            <img src="{{ url_for('static', filename='images/meme6.jpg') }}" alt="Meme Image">
                         </div>
                         <div class="post-tags">
                             <span class="post-tag">funny</span>
@@ -206,7 +206,7 @@
                 <div class="leaderboard-item">
                     <div class="lb-rank gold">1</div>
                     <div class="lb-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="lb-info">
                         <h4>@dank_memer</h4>
@@ -217,7 +217,7 @@
                 <div class="leaderboard-item">
                     <div class="lb-rank silver">2</div>
                     <div class="lb-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="lb-info">
                         <h4>@wholesome_dude</h4>
@@ -228,7 +228,7 @@
                 <div class="leaderboard-item">
                     <div class="lb-rank bronze">3</div>
                     <div class="lb-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="lb-info">
                         <h4>@gaming_lord</h4>
@@ -243,7 +243,7 @@
                 <h3 class="widget-title">Suggested Creators This Week</h3>
                 <div class="creator-item">
                     <div class="creator-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="creator-info">
                         <h4>@stonks_only</h4>
@@ -253,7 +253,7 @@
                 </div>
                 <div class="creator-item">
                     <div class="creator-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="creator-info">
                         <h4>@memes_stealer</h4>
@@ -263,7 +263,7 @@
                 </div>
                 <div class="creator-item">
                     <div class="creator-avatar">
-                        <img src="../static/images/profile.jpg" alt="profile picture">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
                     </div>
                     <div class="creator-info">
                         <h4>@fail_army_jake</h4>

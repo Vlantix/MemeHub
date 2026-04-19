@@ -15,7 +15,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="logo-wrapper">
-                <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+                <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeX Logo" class="logo-image">
                 <span class="logo-text">Meme<span>Hub</span></span>
             </a>
         </div>
@@ -23,7 +23,7 @@
 
     <div class="landing-container">
         <div class="hero-logo-wrapper">
-            <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="hero-logo-image">
+            <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeX Logo" class="hero-logo-image">
             <div class="hero-title">Meme<span>Hub</span></div>
         </div>
             

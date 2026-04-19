@@ -38,10 +38,9 @@ body {
     font-family: var(--font-body);
     background: var(--bg-base);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.page-container,
-.profile-container,
-.upload-page {
-    flex: 1;
-}
+
+

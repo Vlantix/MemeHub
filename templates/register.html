@@ -15,7 +15,7 @@
 <body class="auth-page">
     <div class="register-container">
         <div class="logo-wrapper">
-            <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+            <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeHub Logo" class="logo-image">
             <span class="logo-text">Meme<span>Hub</span></span>
         </div>
         
@@ -26,7 +26,7 @@
             Create your account to get started.
         </div>
         
-        <form action="/register" method="POST">
+        <form action="{{ url_for('register') }}" method="POST">
             <!--- FLASH MESSAGES --->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

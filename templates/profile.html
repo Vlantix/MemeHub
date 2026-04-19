@@ -17,7 +17,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('feed') }}" class="logo-wrapper">
-                <img src="../static/images/memex_logo.png" alt="MemeX Logo" class="logo-image">
+                <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeHub Logo" class="logo-image">
                 <span class="logo-text">Meme<span>Hub</span></span>
             </a>
 
@@ -31,7 +31,7 @@
             <div class="nav-right">
                 <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 <a href="{{ url_for('profile') }}" class="nav-profile">
-                    <img src="../static/images/profile-pic.png" alt="profile-pic">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile-pic">
                 </a>
             </div>
         </div>
@@ -61,13 +61,13 @@
         <!-- ── PROFILE CARD ── -->
         <div class="profile-card">
             <div class="profile-cover">
-                <img src="../static/images/cover-photo.png" alt="cover-photo">
+                <img src="{{ url_for('static', filename='images/cover-photo.png') }}" alt="cover-photo">
             </div>
             <div class="profile-body">
 
                 <div class="profile-avatar-wrap">
                     <div class="profile-avatar-large">
-                        <img src="../static/images/profile-pic.png" alt="profile-pic">
+                        <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="profile-pic">
                     </div>
                 </div>
 
@@ -145,12 +145,12 @@
             <div class="meme-grid">
                 {% for post in user_posts %}
                 <div class="meme-grid-item">
-                    <img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="Meme" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="Meme">
                     <div class="meme-grid-overlay">
                         <span>❤️ 0</span>
                         <span>💬 0</span>
                         <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display: inline;">
-                            <button type="submit" onclick="return confirm('Delete this meme?')" style="background: none; border: none; color: red; cursor: pointer;">🗑️</button>
+                            <button type="submit" onclick="return confirm('Delete this meme?')">🗑️</button>
                         </form>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
             <div class="empty-state">
                 <div class="empty-state-icon">🎭</div>
                 <p>No upload memes yet</p>
-                <p style="font-size:13px">Memes you save will appear here</p>
+                <p class="empty-state-subtitle">Memes you save will appear here</p>
             </div>
             {% endif %}
         </div>
