@@ -31,7 +31,7 @@
             <div class="nav-right">
                 <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
                 <a href="{{ url_for('profile') }}" class="nav-profile">
-                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile-pic">
+                    <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="profile-pic">
                 </a>
             </div>
         </div>
@@ -145,7 +145,7 @@
             <div class="meme-grid">
                 {% for post in user_posts %}
                 <div class="meme-grid-item">
-                    <img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="Meme">
+                    <img src="{{ url_for('static', filename='uploads/' + post.image_filename) }}" alt="Meme">
                     <div class="meme-grid-overlay">
                         <span>❤️ 0</span>
                         <span>💬 0</span>

@@ -12,7 +12,7 @@
 
     <title>MemeHub - Home</title>
 </head>
-<body class="container">
+<body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -84,7 +84,7 @@
                             <p>{{ post.caption }}</p>
                             {% endif %}
                             <div class="post-image">
-                                <img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="Meme">
+                                <img src="{{ url_for('static', filename='uploads/' + post.image_filename) }}" alt="Meme">
                             </div>
                             {% if post.tags %}
                             <div class="post-tags">

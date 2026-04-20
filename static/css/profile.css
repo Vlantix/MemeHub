@@ -248,6 +248,10 @@
     transform: scale(1.1);
 }
 
+.meme-grid-overlay button {
+    
+}
+
 /* Empty State */
 .empty-state {
     padding: 60px 20px;

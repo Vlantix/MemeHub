@@ -70,7 +70,16 @@ def register():
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
         confirm_password = request.form.get('confirm-password', '')
-        
+
+        if (not display_name and not username and not email and not password and not confirm_password):
+            flash("All fields are required", "error")
+            return render_template('register.html', 
+                                   error_display_name=True,
+                                   error_username=True,
+                                   error_email=True,
+                                   error_password=True,
+                                   error_confirm_password=True)
+
         if not display_name:
             flash("Display name is required", "error")
             return render_template('register.html', 
@@ -102,7 +111,7 @@ def register():
                                     email=email,
                                     error_email=True) 
         
-        elif len(username) <= 3:
+        elif len(username) < 3:
             flash("Username must be at least 3 characters", "error")
             return render_template('register.html',
                                     display_name=display_name,
@@ -182,6 +191,13 @@ def login():
         password = request.form.get('password', '')
 
         username_or_email = login_input
+
+        if not username_or_email and not password:
+            flash("All fields are required", "error")
+            return render_template('login.html', 
+                                   error_username=True,
+                                   error_password=True)
+        
         if not username_or_email:
             flash("Username is required", "error")
             return render_template('login.html', username_or_email=login_input,
@@ -207,7 +223,9 @@ def login():
         
         else:
             flash("Invalid username or password", "error")
-            return render_template('login.html', username_or_email=login_input)
+            return render_template('login.html', username_or_email=login_input,
+                                   error_username=True, 
+                                   error_password=True)
 
     return render_template('login.html')
 
@@ -290,8 +308,6 @@ def create_post():
     flash('Meme uploaded successfully!', 'success')
     return redirect(url_for('feed'))
     
-
-
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
     if not session.get('user_id'):
