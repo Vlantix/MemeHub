@@ -1,9 +1,9 @@
-CREATE DATABASE IF NOT EXISTS myapp;
-USE myapp;
+CREATE DATABASE IF NOT EXISTS memehub;
+USE memehub;
 
 CREATE TABLE users(
 id INT AUTO_INCREMENT PRIMARY KEY,
-display_name VARCHAR(80) NOT NULL,
+display_name VARCHAR(80) NOT NULL UNIQUE,
 username VARCHAR(80) NOT NULL,
 email VARCHAR(80) NOT NULL,
 password_hash VARCHAR(100) NOT NULL,
@@ -27,6 +27,7 @@ visibility VARCHAR(20) DEFAULT 'public',
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 
+INDEX idx_user_id (user_id),
 INDEX idx_category (category),
 INDEX idx_tags (tags),
 INDEX idx_visibility (visibility),

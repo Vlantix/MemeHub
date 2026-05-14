@@ -1,49 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
+from config import Config
 from models import database, User, Post
+from helper import time_ago, allowed_file, UPLOAD_FOLDER
 import os
 from datetime import datetime
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = Config.SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000  # Limit upload size to 10MB
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-if os.environ.get('RENDER'):
-    # Render uses /tmp for writable storage
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/users.db'
-else:
-    # Local development
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-
-UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def time_ago(date):
-    """Convert datetime to 'X hours ago' format"""
-    now = datetime.utcnow()
-    diff = now - date
-    
-    if diff.days > 0:
-        if diff.days == 1:
-            return "Yesterday"
-        return f"{diff.days} days ago"
-    elif diff.seconds // 3600 > 0:
-        hours = diff.seconds // 3600
-        if hours == 1:
-            return "1 hour ago"
-        return f"{hours} hours ago"
-    elif diff.seconds // 60 > 0:
-        minutes = diff.seconds // 60
-        if minutes == 1:
-            return "1 minute ago"
-        return f"{minutes} minutes ago"
-    else:
-        return "Just now"
 
 # Make available to templates
 app.jinja_env.globals.update(time_ago=time_ago)
