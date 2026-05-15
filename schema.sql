@@ -6,7 +6,7 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 display_name VARCHAR(80) NOT NULL UNIQUE,
 username VARCHAR(80) NOT NULL,
 email VARCHAR(80) NOT NULL,
-password_hash VARCHAR(100) NOT NULL,
+password_hash VARCHAR(250) NOT NULL,
 bio VARCHAR(128) DEFAULT 'No bio yet',
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
@@ -32,4 +32,4 @@ INDEX idx_category (category),
 INDEX idx_tags (tags),
 INDEX idx_visibility (visibility),
 INDEX idx_created_at (created_at)
-)
+);

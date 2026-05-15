@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, session
-from db_connection import *
-from helper import generate_password_hash, check_password_hash
+from db_connection import get_username, get_email, create_account
+from helper import check_password, set_password
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -9,7 +9,6 @@ auth_bp = Blueprint('auth', __name__)
 # ==============================================
 @auth_bp.route('/api/register', methods=['POST'])
 def api_register():
-    # Get JSON data from request body
     data = request.get_json()
     
     if not data:
@@ -21,7 +20,6 @@ def api_register():
     password = data.get('password', '')
     confirm_password = data.get('confirm_password', '')
     
-    # Validation
     if not all([display_name, username, email, password, confirm_password]):
         return jsonify({
             "error": "All fields are required",
@@ -34,6 +32,15 @@ def api_register():
             }
         }), 400
     
+    if not display_name:
+        return jsonify({"error": "Display name is required"}), 400
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+    
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
     if len(display_name) < 3:
         return jsonify({"error": "Display name must be at least 3 characters"}), 400
     
@@ -49,7 +56,6 @@ def api_register():
     if password != confirm_password:
         return jsonify({"error": "Passwords do not match"}), 400
     
-    # Check if user exists
     existing_user = get_username(username)
     if existing_user:
         return jsonify({"error": "Username is already taken"}), 409
@@ -58,8 +64,7 @@ def api_register():
     if existing_email:
         return jsonify({"error": "Email is already registered"}), 409
     
-    # Create account
-    password_hash = generate_password_hash(password)
+    password_hash = set_password(password)
     user_id = create_account(display_name, username, email, password_hash)
     
     return jsonify({
@@ -91,10 +96,9 @@ def api_login():
     
     user = get_username(username)
     
-    if not user or not check_password_hash(user['password_hash'], password):
+    if not user or not check_password(user['password_hash'], password):
         return jsonify({"error": "Invalid credentials"}), 401
     
-    # Store in session
     session['user_id'] = user['id']
     session['username'] = user['username']
     

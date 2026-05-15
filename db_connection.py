@@ -9,7 +9,7 @@ def get_db_connection():
             password = Config.DB_PASSWORD,
             database = Config.DB_NAME
         )
-    except mysql.connector.error as err:
+    except mysql.connector.Error as err:
         print(f"Error: {err}")
         return None
     
@@ -49,5 +49,31 @@ def get_email(email):
     cursor = get_dict_cursor(conn)
     cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     result = cursor.fetchone()
+    close_db_connection(cursor, conn)
+    return result
+
+def get_post(post_id):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("""
+        SELECT p.*, u.username, u.display_name
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        WHERE p.id = %s AND p.visibility = 'public'
+    """, (post_id,))
+    result = cursor.fetchone()
+    close_db_connection(cursor, conn)
+    return result
+
+def get_posts(posts_id, limit, offset):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("""SELECT p.*, u.username, u.display_name
+                FROM posts
+                JOIN users ON posts.user_id = users.id
+                WHERE posts.id = %s AND posts.visibility = 'public' 
+                ORDER BY created_at DESC
+                LIMIT %s OFFSET %s""", (posts_id, limit, offset))
+    result = cursor.fetchall()
     close_db_connection(cursor, conn)
     return result

@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 from routes.main import landing_bp
 from routes.auth import auth_bp
+from routes.feed import feed_bp
 
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ app.jinja_env.globals.update(time_ago=time_ago)
 # ==============================================
 app.register_blueprint(landing_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(feed_bp)
 
 if __name__ == '__main__':
     # Needed to Publish Live
