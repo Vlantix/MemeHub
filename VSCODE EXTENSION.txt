@@ -1,0 +1,7 @@
+Error Lens
+Matterial Icon Theme
+One Dark Pro
+Path Intellisense
+Prettier
+Python
+REST client
