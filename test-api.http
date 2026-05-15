@@ -1,0 +1,34 @@
+@host = http://127.0.0.1:5001
+
+### 1. TEST CONNECTION (Add this first!)
+GET {{host}}/api/test
+
+### 2. Register User
+POST {{host}}/api/register
+Content-Type: application/json
+
+{
+    "display_name": "John Doe",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "password": "123456",
+    "confirm_password": "123456"
+}
+
+### 3. Login
+POST {{host}}/api/login
+Content-Type: application/json
+
+{
+    "username": "johndoe",
+    "password": "123456"
+}
+
+### 4. Get Current User
+GET {{host}}/api/me
+
+### 5. Logout
+POST {{host}}/api/logout
+
+### 6. Try after logout
+GET {{host}}/api/me

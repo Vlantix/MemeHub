@@ -1,7 +1,20 @@
+from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
+
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+
+
+def set_password(password):
+    """Hash the password and return the hash"""
+    return generate_password_hash(password)
+
+
+def check_password(password_hash, password):
+    """Verify the password against the hash"""
+    return check_password_hash(password_hash, password)
+
 
 def time_ago(date):
     """Convert datetime to 'X hours ago' format"""
@@ -24,6 +37,7 @@ def time_ago(date):
         return f"{minutes} minutes ago"
     else:
         return "Just now"
+    
     
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

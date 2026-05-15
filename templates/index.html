@@ -14,7 +14,7 @@
 <body class="landing-page">
     <nav class="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo-wrapper">
+            <a href="{{ url_for('landing.index') }}" class="logo-wrapper">
                 <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeX Logo" class="logo-image">
                 <span class="logo-text">Meme<span>Hub</span></span>
             </a>
@@ -30,8 +30,8 @@
         <div class="hero-subtitle">Where memes go viral. Share, laugh, and connect with the meme community.</div>
         
         <div class="cta-buttons">
-            <a href="{{ url_for('register') }}" class="btn-primary">Get Started</a>
-            <a href="{{ url_for('login') }}" class="btn-secondary">Log In</a>
+            <a href="{{ url_for('auth.register') }}" class="btn-primary">Get Started</a>
+            <a href="{{ url_for('auth.login') }}" class="btn-secondary">Log In</a>
         </div>
 
         <div class="features-grid">

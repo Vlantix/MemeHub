@@ -32,4 +32,4 @@ INDEX idx_category (category),
 INDEX idx_tags (tags),
 INDEX idx_visibility (visibility),
 INDEX idx_created_at (created_at)
-);
+)
