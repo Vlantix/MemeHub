@@ -28,8 +28,12 @@ Content-Type: application/json
 GET {{host}}/post/1
 Content-Type: application/json
 
+### Get Posts
+GET {{host}}/feed
+Content-Type: application/json
+
 ### Logout
-    POST {{host}}/api/logout
+POST {{host}}/api/logout
 
 ### Try after logout
-GET {{host}}/api/me
+GET {{host}}/api/me 

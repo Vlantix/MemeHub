@@ -65,15 +65,17 @@ def get_post(post_id):
     close_db_connection(cursor, conn)
     return result
 
-def get_posts(posts_id, limit, offset):
+def get_posts(limit, offset):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
-    cursor.execute("""SELECT p.*, u.username, u.display_name
-                FROM posts
-                JOIN users ON posts.user_id = users.id
-                WHERE posts.id = %s AND posts.visibility = 'public' 
-                ORDER BY created_at DESC
-                LIMIT %s OFFSET %s""", (posts_id, limit, offset))
+    cursor.execute("""
+        SELECT p.*, u.username, u.display_name
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        WHERE p.visibility = 'public' 
+        ORDER BY p.created_at DESC
+        LIMIT %s OFFSET %s
+    """, (limit, offset))
     result = cursor.fetchall()
     close_db_connection(cursor, conn)
-    return result
+    return result       

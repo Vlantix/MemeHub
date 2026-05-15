@@ -36,6 +36,11 @@ def get_feed():
 
     posts = get_posts(limit, offset)
 
+    if not posts:
+        return jsonify({
+            "error": "No uploaded posts yet"
+        }), 404
+
     return jsonify({
         "success": True,
         "data": posts,
@@ -46,15 +51,15 @@ def get_feed():
         }
     }), 200
     
-# @feed_bp.route('/trending', methods=['GET'])
-# def trending():
-#     if not session.get('user_id'):
-#         return jsonify({
-#             "error": "Authentication Required!",
-#             "message": "Session expired! Please login"
-#         }), 401
+@feed_bp.route('/trending', methods=['GET'])
+def trending():
+    if not session.get('user_id'):
+        return jsonify({
+            "error": "Authentication Required!",
+            "message": "Session expired! Please login"
+        }), 401
     
-#     limit = request.args.get('limit', 20, type=int)
-#     offset = request.args.get('offset', 0, type=int)   
+    limit = request.args.get('limit', 20, type=int)
+    offset = request.args.get('offset', 0, type=int)   
         
     
