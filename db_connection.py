@@ -78,4 +78,27 @@ def get_posts(limit, offset):
     """, (limit, offset))
     result = cursor.fetchall()
     close_db_connection(cursor, conn)
-    return result       
+    return result
+
+def get_trending_posts(time_filter, limit):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("""
+        SELECT 
+            p.id, 
+            p.content, 
+            p.image_url, 
+            p.created_at,
+            p.comment_count, 
+            p.like_count, 
+            u.username,
+            u.display_name
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        WHERE {time_filter}
+        ORDER BY (p.comment_count + p.like_count) DESC
+        LIMIT {limit}
+    """, (time_filter, limit))
+    result = cursor.fetchall()
+    close_db_connection(cursor, conn)
+    return result
