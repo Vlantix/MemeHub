@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, session
 from werkzeug.utils import secure_filename
 from config import Config
 from db_connection import *
@@ -8,6 +8,7 @@ from datetime import datetime
 from routes.main import landing_bp
 from routes.auth import auth_bp
 from routes.feed import feed_bp
+from routes.posts import posts_bp
 
 app = Flask(__name__)
 
@@ -24,6 +25,7 @@ app.jinja_env.globals.update(time_ago=time_ago)
 app.register_blueprint(landing_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(feed_bp)
+app.register_blueprint(posts_bp)
 
 if __name__ == '__main__':
     # Needed to Publish Live

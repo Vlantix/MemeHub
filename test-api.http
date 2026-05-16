@@ -29,12 +29,46 @@ GET {{host}}/post/1
 Content-Type: application/json
 
 ### Get Posts
-GET {{host}}/feed/posts
+GET {{host}}/feed
 Content-Type: application/json
 
 ### Get Trending Posts
-GET {{host}}/trending/posts
+GET {{host}}/trending
 Content-Type: application/json
+
+### Upload Meme
+POST {{host}}/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="meme_image"; filename="meme.jpeg"
+Content-Type: image/jpeg
+
+< ./meme.jpeg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="caption"
+
+Check out this meme!
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="category"
+
+funny
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="visibility"
+
+public
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tags"
+
+funny
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tags"
+
+meme
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Delete Post
+DELETE {{host}}/delete_post/1
 
 ### Logout
 POST {{host}}/api/logout

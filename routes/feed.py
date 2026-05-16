@@ -4,7 +4,7 @@ from helper import time_ago
 
 feed_bp = Blueprint('feed', __name__)
 
-@feed_bp.route('/feed/posts', methods=['GET'])
+@feed_bp.route('/feed', methods=['GET'])
 def get_feed():
     if not session.get('user_id'):
         return jsonify({
@@ -32,7 +32,7 @@ def get_feed():
         }
     }), 200
     
-@feed_bp.route('/trending/posts', methods=['GET'])
+@feed_bp.route('/trending', methods=['GET'])
 def trending():
     if not session.get('user_id'):
         return jsonify({
@@ -40,18 +40,16 @@ def trending():
             "message": "Session expired! Please login"
         }), 401
     
+    time_filters = {
+        'today': "p.created_at >= NOW() - INTERVAL 1 DAY",
+        'week': "p.created_at >= NOW() - INTERVAL 7 DAY", 
+        'month': "p.created_at >= NOW() - INTERVAL 30 DAY"
+    }
+
     try:
         timeframe = request.args.get('timeframe', 'today')
         limit = request.args.get('limit', 10, type=int)
-
-        if timeframe == 'today':
-            time_filter = "p.created_at >= NOW() - INTERVAL '1 day'"
-        elif timeframe == 'week':
-            time_filter = "p.created_at >= NOW() - INTERVAL '7 days'"
-        elif timeframe == 'month':
-            time_filter = "p.created_at >= NOW() - INTERVAL '30 days'"
-        else:
-            time_filter = "1=1"
+        time_filter = time_filters.get(timeframe, "1=1")
 
         posts = get_trending_posts(time_filter, limit)
 

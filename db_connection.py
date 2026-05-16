@@ -83,11 +83,11 @@ def get_posts(limit, offset):
 def get_trending_posts(time_filter, limit):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT 
             p.id, 
-            p.content, 
-            p.image_url, 
+            p.caption, 
+            p.image_filename, 
             p.created_at,
             p.comment_count, 
             p.like_count, 
@@ -97,8 +97,46 @@ def get_trending_posts(time_filter, limit):
         JOIN users u ON p.user_id = u.id
         WHERE {time_filter}
         ORDER BY (p.comment_count + p.like_count) DESC
-        LIMIT {limit}
-    """)
+        LIMIT %s
+    """, (limit,))
     result = cursor.fetchall()
     close_db_connection(cursor, conn)
     return result
+
+def create_post(user_id, caption, image_filename, category=None, visibility='public', tags=None):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("""
+        INSERT INTO posts (user_id, caption, image_filename, category, visibility, tags)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (user_id, caption, image_filename, category, visibility, tags))
+    conn.commit()
+    post_id = cursor.lastrowid
+
+    cursor.execute("""
+        SELECT 
+            id, 
+            caption, 
+            image_filename, 
+            created_at,
+            category, 
+            visibility, 
+            tags,
+            like_count,
+            comment_count,
+            user_id
+        FROM posts 
+        WHERE id = %s
+    """, (post_id,))
+    new_post = cursor.fetchone()
+    close_db_connection(cursor, conn)
+    return new_post
+
+def delete_post(post_id, user_id):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("DELETE FROM posts WHERE id = %s AND user_id = %s", (post_id, user_id))
+    conn.commit()
+    affected_rows = cursor.rowcount
+    close_db_connection(cursor, conn)
+    return affected_rows > 0
