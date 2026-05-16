@@ -29,7 +29,11 @@ GET {{host}}/post/1
 Content-Type: application/json
 
 ### Get Posts
-GET {{host}}/feed
+GET {{host}}/feed/posts
+Content-Type: application/json
+
+### Get Trending Posts
+GET {{host}}/trending/posts
 Content-Type: application/json
 
 ### Logout

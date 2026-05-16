@@ -98,7 +98,7 @@ def get_trending_posts(time_filter, limit):
         WHERE {time_filter}
         ORDER BY (p.comment_count + p.like_count) DESC
         LIMIT {limit}
-    """, (time_filter, limit))
+    """)
     result = cursor.fetchall()
     close_db_connection(cursor, conn)
     return result
