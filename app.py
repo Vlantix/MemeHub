@@ -1,14 +1,12 @@
-from flask import Flask, render_template, request, session
-from werkzeug.utils import secure_filename
+from flask import Flask
 from config import Config
 from db_connection import *
 from helper import time_ago, allowed_file, UPLOAD_FOLDER
-import os
-from datetime import datetime
 from routes.main import landing_bp
 from routes.auth import auth_bp
 from routes.feed import feed_bp
 from routes.posts import posts_bp
+from routes.profile import profile_bp
 
 app = Flask(__name__)
 
@@ -26,6 +24,7 @@ app.register_blueprint(landing_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(feed_bp)
 app.register_blueprint(posts_bp)
+app.register_blueprint(profile_bp)
 
 if __name__ == '__main__':
     # Needed to Publish Live

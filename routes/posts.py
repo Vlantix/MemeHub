@@ -46,7 +46,7 @@ def upload_meme():
     if not file or not allowed_file(file.filename):
         return jsonify({
             "error": "Invalid file type",
-            "message": "Only PNG, JPG, JPEG, WEBp files are allowed"
+            "message": "Only PNG, JPG, JPEG, WEBP files are allowed"
         }), 400
     
     caption = request.form.get('caption', '')
