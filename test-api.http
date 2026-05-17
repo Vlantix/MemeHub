@@ -68,7 +68,7 @@ meme
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### Delete Post
-DELETE {{host}}/delete_post/1
+DELETE {{host}}/delete_post/2
 
 ### Get user profile
 GET {{host}}/profile
@@ -78,7 +78,7 @@ PATCH {{host}}/profile/update
 Content-Type: application/json
 
 {
-    "display_name": "New Display Name",
+    "display_name": "John Doe",
     "bio": "This is my new bio!"
 }
 
