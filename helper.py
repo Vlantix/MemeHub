@@ -5,7 +5,6 @@ from datetime import datetime
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
-
 def set_password(password):
     """Hash the password and return the hash"""
     return generate_password_hash(password)

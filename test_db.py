@@ -1,4 +1,4 @@
-from db_connection import get_db_connection
+from db.db_connection import get_db_connection
 
 try:
     conn = get_db_connection()

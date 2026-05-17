@@ -68,7 +68,7 @@ meme
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### Delete Post
-DELETE {{host}}/delete_post/
+DELETE {{host}}/delete_post/1
 
 ### Get user profile
 GET {{host}}/profile
@@ -86,4 +86,4 @@ Content-Type: application/json
 POST {{host}}/api/logout
 
 ### Try after logout
-GET {{host}}/api/me 
+GET {{host}}/api/me

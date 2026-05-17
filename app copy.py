@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
 from config import Config
-from db_connection import *
+from db.db_connection import *
 from helper import time_ago, allowed_file, UPLOAD_FOLDER
 import os
 from datetime import datetime
