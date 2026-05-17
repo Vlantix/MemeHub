@@ -32,6 +32,10 @@ Content-Type: application/json
 GET {{host}}/feed
 Content-Type: application/json
 
+### Like Post
+POST {{host}}/like/1
+Content-Type: application/json
+
 ### Get Trending Posts
 GET {{host}}/trending
 Content-Type: application/json
