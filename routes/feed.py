@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session
-from db.db_connection import get_posts, get_trending_posts
+from db.queries.posts import get_posts, get_trending_posts
 from helper import time_ago
 
 feed_bp = Blueprint('feed', __name__)

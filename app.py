@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from db.db_connection import *
-from helper import time_ago, allowed_file, UPLOAD_FOLDER
+from helper import time_ago, UPLOAD_FOLDER
 from routes.main import landing_bp
 from routes.auth import auth_bp
 from routes.feed import feed_bp

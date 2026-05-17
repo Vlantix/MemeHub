@@ -1,7 +1,7 @@
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Blueprint, jsonify, request, session
-from db.db_connection import get_post, create_post, delete_post
+from db.queries.posts import get_post, create_post, delete_post
 from helper import allowed_file, UPLOAD_FOLDER
 import os
 

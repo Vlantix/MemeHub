@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session
-from db.db_connection import get_user_profile_by_id, get_user_posts, get_total_likes, update_user_profile
+from db.queries.profile import get_user_profile_by_id, get_user_posts, get_total_likes, update_user_profile
 
 profile_bp = Blueprint('profile', __name__)
 
