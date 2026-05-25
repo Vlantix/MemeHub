@@ -60,8 +60,6 @@
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
 
-    UNIQUE KEY unique_comment (user_id, post_id),
-
     INDEX idx_user_id (user_id),
     INDEX idx_post_id (post_id),
     INDEX idx_created_at (created_at)

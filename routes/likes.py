@@ -1,6 +1,5 @@
-from db.queries.likes import like_post, unlike_post, check_user_liked, get_post_like_count, get_users_who_liked
-
-from routes.posts import get_post
+from db.queries.likes import add_like, remove_like, check_user_liked, get_post_like_count, get_users_who_liked
+from db.queries.posts import get_post
 from flask import Blueprint, jsonify, request, session
 
 likes_bp = Blueprint('likes', __name__)
@@ -22,7 +21,7 @@ def like_post(post_id):
             "error": "Post not found"
         }), 404
     
-    success = like_post(user_id, post_id)
+    success = add_like(user_id, post_id)
     like_count = get_post_like_count(post_id)
 
     if success:
@@ -38,7 +37,7 @@ def like_post(post_id):
         "like_count": like_count
     }), 400
 
-@likes_bp.route('/posts/<int:post_id>/like', methods=['POST'])
+@likes_bp.route('/posts/<int:post_id>/unlike', methods=['POST'])
 def unlike_post(post_id):
     user_id = session.get('user_id')
 
@@ -55,7 +54,7 @@ def unlike_post(post_id):
             "error": "Post not found"
         }), 404
 
-    success = unlike_post(user_id, post_id)
+    success = remove_like(user_id, post_id)
     like_count = get_post_like_count(post_id)
 
     if success:

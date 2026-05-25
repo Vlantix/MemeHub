@@ -1,6 +1,6 @@
 from db.connection import get_db_connection, get_dict_cursor, close_db_connection 
 
-def like_post(user_id, post_id):
+def add_like(user_id, post_id):
     try:
         conn = get_db_connection()
         cursor = get_dict_cursor(conn)
@@ -22,7 +22,7 @@ def like_post(user_id, post_id):
     finally:
         close_db_connection(cursor, conn)
 
-def unlike_post(user_id, post_id):
+def remove_like(user_id, post_id):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 

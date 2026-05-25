@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Get Post
-GET {{host}}/post/1
+GET {{host}}/post/2
 Content-Type: application/json
 
 ### Get Posts
@@ -33,7 +33,23 @@ GET {{host}}/feed
 Content-Type: application/json
 
 ### Like Post
-POST {{host}}/like/1
+POST {{host}}/posts/2/like
+Content-Type: application/json
+
+### Comment on Post
+POST {{host}}/posts/2/comments
+Content-Type: application/json
+
+{
+    "content": "This is a comment on the post!"
+}
+
+### Like Post
+POST {{host}}/posts/2/like
+Content-Type: application/json
+
+### Unlike Post
+POST {{host}}/posts/2/unlike
 Content-Type: application/json
 
 ### Get Trending Posts
