@@ -1,3 +1,5 @@
+    ============= MYSQL_SCHEMA =============
+    
     CREATE DATABASE IF NOT EXISTS memehub;
     USE memehub;
 
