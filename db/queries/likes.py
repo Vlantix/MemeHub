@@ -31,7 +31,6 @@ def remove_like(user_id, post_id):
         existing_like = cursor.fetchone()
         
         if not existing_like:
-            close_db_connection(cursor, conn)
             return False  
         
         cursor.execute("DELETE FROM likes WHERE id = %s", (existing_like['id'],))
@@ -52,7 +51,7 @@ def check_user_liked(user_id, post_id):
         cursor.execute("SELECT id FROM likes WHERE user_id = %s AND post_id = %s", (user_id, post_id))
         result = cursor.fetchone()
         
-        return result['like_count'] if result else None
+        return result is not None
 
     finally:
         close_db_connection(cursor, conn)
@@ -70,7 +69,7 @@ def get_post_like_count(post_id):
     finally:
         close_db_connection(cursor, conn)
 
-def get_users_who_liked(post_id):
+def get_users_who_liked(post_id, limit):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 
@@ -80,19 +79,9 @@ def get_users_who_liked(post_id):
             FROM likes l
             JOIN users u ON l.user_id = u.id 
             WHERE l.post_id = %s
-        """, (post_id,))
+            LIMIT %s
+        """, (post_id, limit))
         results = cursor.fetchall()
         return results
-    finally:
-        close_db_connection(cursor, conn)
-
-def update_comment(comment_id, content):
-    conn = get_db_connection()
-    cursor = get_dict_cursor(conn)
-
-    try:
-        cursor.execute("UPDATE comments SET content = %s, updated_at = NOW() WHERE id = %s", (content, comment_id))
-        conn.commit()
-        return True
     finally:
         close_db_connection(cursor, conn)

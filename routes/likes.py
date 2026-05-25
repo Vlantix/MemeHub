@@ -29,7 +29,7 @@ def like_post(post_id):
             "message": "Post liked",
             "liked": True,
             "like_count": like_count
-        }); 200
+        }), 200
 
     return jsonify({
         "message": "Already liked",
@@ -62,7 +62,7 @@ def unlike_post(post_id):
             "message": "Post unliked",
             "unliked": True,
             "like_count": like_count
-        }); 200
+        }), 200
 
     return jsonify({
         "message": "Like not found", 

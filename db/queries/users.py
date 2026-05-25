@@ -11,7 +11,9 @@ def create_account(display_name, username, email, password_hash):
                    ) VALUES (%s, %s, %s, %s)""", 
                    (display_name, username, email, password_hash))
     conn.commit()
+    user_id = cursor.lastrowid
     close_db_connection(cursor, conn)
+    return user_id
 
 def get_username(username):
     conn = get_db_connection()
