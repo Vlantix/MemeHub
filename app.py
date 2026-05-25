@@ -8,6 +8,7 @@ from routes.feed import feed_bp
 from routes.posts import posts_bp
 from routes.profile import profile_bp
 from routes.likes import likes_bp
+from routes.comments import comments_bp
 
 app = Flask(__name__)
 
@@ -27,6 +28,7 @@ app.register_blueprint(feed_bp)
 app.register_blueprint(posts_bp)
 app.register_blueprint(profile_bp)
 app.register_blueprint(likes_bp)
+app.register_blueprint(comments_bp)
 
 if __name__ == '__main__':
     # Needed to Publish Live

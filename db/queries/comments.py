@@ -19,21 +19,35 @@ def add_comment(user_id, post_id, content):
                        WHERE c.id = %s""", (comment_id,))
         result = cursor.fetchone()
         return result
+    
+    except Exception as e:
+        print(f"Error adding comment: {e}")  # Log the error
+        return None
+    
     finally:
         close_db_connection(cursor, conn)
 
-def get_comments(post_id, limit, offset):
+def get_comments(post_id, limit, offset, user_id=None):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 
     try:
-        cursor.execute("""SELECT u.username, u.display_name
-                       FROM comments c
-                       JOIN users u ON c.user_id = u.id
-                       WHERE c.post_id = %s
-                       ORDER BY c.created_at DESC
-                       LIMIT %s OFFSET %s""", (post_id, limit, offset))
+        cursor.execute("""
+            SELECT c.id, c.content, c.created_at, c.user_id,
+                   u.username, u.display_name
+            FROM comments c
+            JOIN users u ON c.user_id = u.id
+            WHERE c.post_id = %s
+            ORDER BY c.created_at DESC
+            LIMIT %s OFFSET %s
+        """, (post_id, limit, offset))
+        
         results = cursor.fetchall()
+        
+        if user_id:
+            for comment in results:
+                comment['is_owner'] = (comment['user_id'] == user_id)
+        
         return results
     finally:
         close_db_connection(cursor, conn)

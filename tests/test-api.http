@@ -3,6 +3,8 @@
 ### TEST CONNECTION
 GET {{host}}/test
 
+### ============ AUTHENTICATION ============
+
 ### Register User
 POST {{host}}/api/register
 Content-Type: application/json
@@ -24,37 +26,19 @@ Content-Type: application/json
     "password": "123456"
 }
 
-### Get Post
+### Logout
+POST {{host}}/api/logout
+
+### ============ POSTS ============
+
+### Get Single Post
 GET {{host}}/post/2
-Content-Type: application/json
 
-### Get Posts
+### Get Feed Posts
 GET {{host}}/feed
-Content-Type: application/json
-
-### Like Post
-POST {{host}}/posts/2/like
-Content-Type: application/json
-
-### Comment on Post
-POST {{host}}/posts/2/comments
-Content-Type: application/json
-
-{
-    "content": "This is a comment on the post!"
-}
-
-### Like Post
-POST {{host}}/posts/2/like
-Content-Type: application/json
-
-### Unlike Post
-POST {{host}}/posts/2/unlike
-Content-Type: application/json
 
 ### Get Trending Posts
 GET {{host}}/trending
-Content-Type: application/json
 
 ### Upload Meme
 POST {{host}}/upload
@@ -90,20 +74,53 @@ meme
 ### Delete Post
 DELETE {{host}}/delete_post/2
 
-### Get user profile
+### ============ LIKES ============
+
+### Like Post
+POST {{host}}/posts/2/like
+
+### Unlike Post
+POST {{host}}/posts/2/unlike
+
+### ============ COMMENTS ============
+
+### Add Comment to Post
+POST {{host}}/posts/2/comments
+Content-Type: application/json
+
+{
+    "content": "This is a comment on the post!"
+}
+
+### Get Comments from Post
+GET {{host}}/posts/2/comments
+
+### Update Comment (Replace 1 with actual comment ID)
+PATCH {{host}}/posts/comments/1
+Content-Type: application/json
+
+{
+    "content": "This is my updated comment!"
+}
+
+### Delete Comment (Replace 1 with actual comment ID)
+DELETE {{host}}/posts/comments/1
+
+### ============ PROFILE ============
+
+### Get User Profile
 GET {{host}}/profile
 
-### Update user profile
+### Update User Profile
 PATCH {{host}}/profile/update
 Content-Type: application/json
 
 {
-    "display_name": "John Doe",
+    "display_name": "John Doe Updated",
     "bio": "This is my new bio!"
 }
 
-### Logout
-POST {{host}}/api/logout
+### ============ TEST AFTER LOGOUT ============
 
-### Try after logout
+### Try protected route after logout
 GET {{host}}/api/me

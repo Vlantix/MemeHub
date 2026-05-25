@@ -38,16 +38,15 @@ def comment_post(post_id):
                 "created_at": comment_data['created_at']
             }
         }), 200
+    else:
+        return jsonify({
+            "message": "Failed to add comment",
+            "commented": False
+        }), 400
     
 @comments_bp.route('/posts/<int:post_id>/comments', methods=['GET'])
 def get_post_comments(post_id):
     user_id = session.get('user_id')
-
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
 
     post = get_post(post_id)
 
@@ -59,7 +58,7 @@ def get_post_comments(post_id):
     limit = request.args.get('limit', default=10, type=int)
     offset = request.args.get('offset', default=0, type=int)
 
-    comments = get_comments(post_id, limit, offset)
+    comments = get_comments(post_id, limit, offset, user_id)
     comment_count = get_comment_count(post_id)
 
     return jsonify({
@@ -67,8 +66,55 @@ def get_post_comments(post_id):
         "comment_count": comment_count
     }), 200
 
+@comments_bp.route('/posts/comments/<int:comment_id>', methods=['PATCH'])
+def edit_comment(comment_id):
+    user_id = session.get('user_id')
 
+    if not user_id:
+        return jsonify({
+            "error": "Authentication Required!",
+            "message": "Session expired! Please login"
+        }), 401
+    
+    data = request.get_json()
+    content = data.get('content', '').strip()
 
+    success = update_comment(comment_id, user_id, content)
 
+    if success:
+        return jsonify({
+            "message": "Comment updated",
+            "updated": True,
+            "comment": {
+                "content": content,
+                "user_id": user_id
+            }
+        }), 200
 
+    return jsonify({
+        "message": "Comment not found or unauthorized",
+        "updated": False
+    }), 404
 
+@comments_bp.route('/posts/comments/<int:comment_id>', methods=['DELETE'])
+def remove_comment(comment_id):
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return jsonify({
+            "error": "Authentication Required!",
+            "message": "Session expired! Please login"
+        }), 401
+    
+    success = delete_comment(comment_id, user_id)
+
+    if success:
+        return jsonify({
+            "message": "Comment deleted",
+            "deleted": True
+        }), 200
+
+    return jsonify({
+        "message": "Comment not found or unauthorized",
+        "deleted": False
+    }), 404
