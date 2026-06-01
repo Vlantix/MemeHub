@@ -1,8 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-
-UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 def set_password(password):

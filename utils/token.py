@@ -2,7 +2,15 @@ import jwt
 from datetime import datetime, timedelta, timezone
 from config import Config
 
-def generate_token(user_id, username):
+def generate_access_token(user_id, username):
+    payload = {
+        "user_id": user_id,
+        "username": username,
+        "exp": datetime.now(timezone.utc) + timedelta(days=7)
+    }
+    return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
+
+def generate_refresh_token(user_id, username):
     payload = {
         "user_id": user_id,
         "username": username,

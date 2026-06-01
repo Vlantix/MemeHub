@@ -1,20 +1,17 @@
 from datetime import datetime
 from werkzeug.utils import secure_filename
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request
 from db.queries.posts import get_post, create_post, delete_post
-from helper import allowed_file, UPLOAD_FOLDER
-import os
+from utils.helper import allowed_file
+from utils.decorators import login_required
+from supabase import create_client
+
 
 posts_bp = Blueprint('posts', __name__)
 
 @posts_bp.route('/post/<int:post_id>', methods=['GET'])
+@login_required
 def get_single_post(post_id):
-    if not session.get('user_id'):
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
     post = get_post(post_id)
     
     if not post:
@@ -28,13 +25,8 @@ def get_single_post(post_id):
     }), 200
 
 @posts_bp.route('/upload', methods=['POST'])
+@login_required
 def upload_meme():
-    if not session.get('user_id'):
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
     if 'meme_image' not in request.files:
         return jsonify({
             "error": "No file part",
@@ -89,13 +81,10 @@ def upload_meme():
     }), 201
 
 @posts_bp.route('/delete_post/<int:post_id>', methods=['DELETE'])
+@login_required
 def delete_meme(post_id):
-    if not session.get('user_id'):
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
+    user_id = request.user_id
+
     post = get_post(post_id)
 
     if post is None:
@@ -104,7 +93,7 @@ def delete_meme(post_id):
             "message": f"No post found with ID {post_id}"
         }), 404
     
-    if post and post['user_id'] == session['user_id']:
+    if post and post['user_id'] == user_id:
         try:
             image_path = os.path.join(UPLOAD_FOLDER, post['image_filename'])
             if os.path.exists(image_path):
@@ -115,7 +104,7 @@ def delete_meme(post_id):
                 "message": f"Post deleted but failed to delete image file: {str(e)}"
             }), 500
 
-        post_deleted = delete_post(post_id, session['user_id'])
+        post_deleted = delete_post(post_id, user_id)
         if post_deleted:
             return jsonify({
                 "success": True,

@@ -1,19 +1,14 @@
 from db.queries.likes import add_like, remove_like, check_user_liked, get_post_like_count, get_users_who_liked
 from db.queries.posts import get_post
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request
+from utils.decorators import login_required
 
 likes_bp = Blueprint('likes', __name__)
 
 @likes_bp.route('/posts/<int:post_id>/like', methods=['POST'])
+@login_required
 def like_post(post_id):
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
+    user_id = request.user_id
     post = get_post(post_id)
     
     if not post:
@@ -38,15 +33,9 @@ def like_post(post_id):
     }), 400
 
 @likes_bp.route('/posts/<int:post_id>/unlike', methods=['POST'])
+@login_required
 def unlike_post(post_id):
-    user_id = session.get('user_id')
-
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
+    user_id = request.user_id
     post = get_post(post_id)
 
     if not post:
@@ -71,8 +60,9 @@ def unlike_post(post_id):
     }), 404
 
 @likes_bp.route('/posts/<int:post_id>/status', methods=['GET'])
+@login_required
 def get_like_status(post_id):
-    user_id = session.get('user_id')
+    user_id = request.user_id
 
     liked = check_user_liked(user_id, post_id)
     like_count = get_post_like_count(post_id)
@@ -82,7 +72,7 @@ def get_like_status(post_id):
         'like_count': like_count
     }), 200
 
-@likes_bp.route('/api/posts/<int:post_id>/likes', methods=['GET'])
+@likes_bp.route('/posts/<int:post_id>/likes', methods=['GET'])
 def get_post_likes(post_id):
     limit = request.args.get('limit', 10, type=int)
     users = get_users_who_liked(post_id, limit)

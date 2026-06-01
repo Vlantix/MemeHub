@@ -1,13 +1,11 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request, make_response
 from db.queries.users import get_username, get_email, create_account
-from helper import check_password, set_password
+from utils.helper import check_password, set_password
+from utils.token import generate_access_token, generate_refresh_token, decode_token
 
 auth_bp = Blueprint('auth', __name__)
 
-# ==============================================
-# REGISTER API - POST /api/register
-# ==============================================
-@auth_bp.route('/api/register', methods=['POST'])
+@auth_bp.route('/auth/register', methods=['POST'])
 def api_register():
     data = request.get_json()
     
@@ -78,10 +76,7 @@ def api_register():
         }
     }), 201
 
-# ==============================================
-# LOGIN API - POST /api/login
-# ==============================================
-@auth_bp.route('/api/login', methods=['POST'])
+@auth_bp.route('/auth/login', methods=['POST'])
 def api_login():
     data = request.get_json()
     
@@ -99,24 +94,56 @@ def api_login():
     if not user or not check_password(user['password_hash'], password):
         return jsonify({"error": "Invalid credentials"}), 401
     
-    session['user_id'] = user['id']
-    session['username'] = user['username']
+    access_token = generate_access_token(user['id'], user['username'])
+    refresh_token = generate_refresh_token(user['id'], user['username'])
     
-    return jsonify({
+    response = make_response(jsonify({
         "success": True,
         "message": "Login successful",
+        "access_token": access_token,
         "user": {
             "id": user['id'],
             "display_name": user['display_name'],
             "username": user['username'],
             "email": user['email']
         }
+    }), 200)
+
+    response.set_cookie(
+        "refresh_token",
+        refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="Strict",
+        max_age=7 * 24 * 60 * 60
+    )
+    
+    return response
+    
+@auth_bp.route('/auth/refresh', methods=['POST'])
+def token_refresh():
+    refresh_token = request.cookies.get("refresh_token")
+
+    if not refresh_token:
+        return jsonify({"error": "Refresh token missing"}), 401
+
+    payload = decode_token(refresh_token)
+    if not payload:
+        return jsonify({"error": "Refresh token invalid or expired"}), 401
+
+    new_access_token = generate_access_token(payload["user_id"], payload["username"])
+
+    return jsonify({
+        "success": True,
+        "access_token": new_access_token
     }), 200
 
-# ==============================================
-# LOGOUT API - POST /api/logout
-# ==============================================
-@auth_bp.route('/api/logout', methods=['POST'])
-def api_logout():
-    session.clear()
-    return jsonify({"success": True, "message": "Logged out successfully"}), 200
+@auth_bp.route('/auth/logout', methods=['POST'])
+def logout():
+    response = make_response(jsonify({
+        "success": True,
+        "message": "Logged out successfully"
+    }), 200)
+
+    response.delete_cookie("refresh_token")
+    return response

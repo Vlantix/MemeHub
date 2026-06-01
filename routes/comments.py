@@ -1,19 +1,15 @@
 from db.queries.comments import add_comment, get_comments, delete_comment, get_comment_count, update_comment
 from routes.posts import get_post
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request
+from utils.decorators import login_required
 
 comments_bp = Blueprint('comments', __name__)
 
 @comments_bp.route('/posts/<int:post_id>/comments', methods=['POST'])
+@login_required
 def comment_post(post_id):
-    user_id = session.get('user_id')
+    user_id = request.user_id
 
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
     post = get_post(post_id)
     
     if not post:
@@ -45,9 +41,9 @@ def comment_post(post_id):
         }), 400
     
 @comments_bp.route('/posts/<int:post_id>/comments', methods=['GET'])
+@login_required
 def get_post_comments(post_id):
-    user_id = session.get('user_id')
-
+    user_id = request.user_id
     post = get_post(post_id)
 
     if not post:
@@ -67,8 +63,9 @@ def get_post_comments(post_id):
     }), 200
 
 @comments_bp.route('/posts/comments/<int:comment_id>', methods=['PATCH'])
+@login_required
 def edit_comment(comment_id):
-    user_id = session.get('user_id')
+    user_id = request.user_id
 
     if not user_id:
         return jsonify({
@@ -97,8 +94,9 @@ def edit_comment(comment_id):
     }), 404
 
 @comments_bp.route('/posts/comments/<int:comment_id>', methods=['DELETE'])
+@login_required
 def remove_comment(comment_id):
-    user_id = session.get('user_id')
+    user_id = request.user_id
 
     if not user_id:
         return jsonify({

@@ -1,17 +1,13 @@
 from flask import Blueprint, jsonify, request, session
 from db.queries.posts import get_posts, get_trending_posts
-from helper import time_ago
+from utils.helper import time_ago
+from utils.decorators import login_required
 
 feed_bp = Blueprint('feed', __name__)
 
 @feed_bp.route('/feed', methods=['GET'])
+@login_required
 def get_feed():
-    if not session.get('user_id'):
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-
     limit = request.args.get('limit', 20, type=int)
     offset = request.args.get('offset', 0, type=int)   
 
@@ -33,17 +29,12 @@ def get_feed():
     }), 200
     
 @feed_bp.route('/trending', methods=['GET'])
+@login_required
 def trending():
-    if not session.get('user_id'):
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
-    
     time_filters = {
-        'today': "p.created_at >= NOW() - INTERVAL 1 DAY",
-        'week': "p.created_at >= NOW() - INTERVAL 7 DAY", 
-        'month': "p.created_at >= NOW() - INTERVAL 30 DAY"
+        'today': "p.created_at >= NOW() - INTERVAL '1 DAY'",
+        'week': "p.created_at >= NOW() - INTERVAL '7 DAY'",
+        'month': "p.created_at >= NOW() - INTERVAL '30 DAY'"
     }
 
     try:
