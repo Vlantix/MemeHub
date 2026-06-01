@@ -9,7 +9,6 @@ def add_like(user_id, post_id):
         existing_like = cursor.fetchone()
         
         if existing_like:
-            close_db_connection(cursor, conn)
             return False  
         
         cursor.execute("INSERT INTO likes (user_id, post_id) VALUES (%s, %s)", (user_id, post_id))

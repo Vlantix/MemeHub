@@ -34,6 +34,14 @@ def get_total_likes(post_id):
     close_db_connection(cursor, conn)
     return result['like_count'] if result else 0
 
+def get_total_posts(user_id):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("SELECT COUNT(*) as count FROM posts WHERE user_id = %s", (user_id,))
+    result = cursor.fetchone()
+    close_db_connection(cursor, conn)
+    return result['count'] if result else 0
+
 def update_user_profile(user_id, display_name=None, bio=None):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)

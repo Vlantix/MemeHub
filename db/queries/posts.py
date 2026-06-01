@@ -51,21 +51,22 @@ def get_trending_posts(time_filter, limit):
     close_db_connection(cursor, conn)
     return result
 
-def create_post(user_id, caption, image_filename, category=None, visibility='public', tags=None):
+def create_post(user_id, caption, image_filename, image_url=None, category=None, visibility='public', tags=None):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
     cursor.execute("""
-        INSERT INTO posts (user_id, caption, image_filename, category, visibility, tags)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (user_id, caption, image_filename, category, visibility, tags))
+        INSERT INTO posts (user_id, caption, image_filename, image_url, category, visibility, tags)
+        VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id
+    """, (user_id, caption, image_filename, image_url, category, visibility, tags))
+    post_id = cursor.fetchone()['id']
     conn.commit()
-    post_id = cursor.lastrowid
 
     cursor.execute("""
         SELECT 
             id, 
             caption, 
-            image_filename, 
+            image_filename,
+            image_url,
             created_at,
             category, 
             visibility, 

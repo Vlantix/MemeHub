@@ -1,4 +1,5 @@
 @host = http://127.0.0.1:5001
+@access_token = your_access_token_here
 
 ### TEST CONNECTION
 GET {{host}}/test
@@ -6,7 +7,7 @@ GET {{host}}/test
 ### ============ AUTHENTICATION ============
 
 ### Register User
-POST {{host}}/api/register
+POST {{host}}/auth/register
 Content-Type: application/json
 
 {
@@ -17,8 +18,8 @@ Content-Type: application/json
     "confirm_password": "123456"
 }
 
-### Login
-POST {{host}}/api/login
+### Login (copy access_token from response and paste above)
+POST {{host}}/auth/login
 Content-Type: application/json
 
 {
@@ -26,22 +27,37 @@ Content-Type: application/json
     "password": "123456"
 }
 
+### Refresh Token
+POST {{host}}/auth/refresh
+
 ### Logout
-POST {{host}}/api/logout
+POST {{host}}/auth/logout
 
 ### ============ POSTS ============
 
 ### Get Single Post
 GET {{host}}/post/2
+Authorization: Bearer {{access_token}}
 
 ### Get Feed Posts
 GET {{host}}/feed
+Authorization: Bearer {{access_token}}
 
-### Get Trending Posts
-GET {{host}}/trending
+### Get Trending Posts (default: today)
+GET {{host}}/trending?timeframe=today
+Authorization: Bearer {{access_token}}
+
+### Get Trending Posts (week)
+GET {{host}}/trending?timeframe=week
+Authorization: Bearer {{access_token}}
+
+### Get Trending Posts (month)
+GET {{host}}/trending?timeframe=month
+Authorization: Bearer {{access_token}}
 
 ### Upload Meme
 POST {{host}}/upload
+Authorization: Bearer {{access_token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -73,19 +89,30 @@ meme
 
 ### Delete Post
 DELETE {{host}}/delete_post/2
+Authorization: Bearer {{access_token}}
 
 ### ============ LIKES ============
 
 ### Like Post
 POST {{host}}/posts/2/like
+Authorization: Bearer {{access_token}}
 
 ### Unlike Post
 POST {{host}}/posts/2/unlike
+Authorization: Bearer {{access_token}}
+
+### Get Like Status
+GET {{host}}/posts/2/status
+Authorization: Bearer {{access_token}}
+
+### Get Users Who Liked Post
+GET {{host}}/posts/2/likes
 
 ### ============ COMMENTS ============
 
 ### Add Comment to Post
 POST {{host}}/posts/2/comments
+Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
@@ -94,25 +121,30 @@ Content-Type: application/json
 
 ### Get Comments from Post
 GET {{host}}/posts/2/comments
+Authorization: Bearer {{access_token}}
 
-### Update Comment (Replace 1 with actual comment ID)
+### Update Comment
 PATCH {{host}}/posts/comments/1
+Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
     "content": "This is my updated comment!"
 }
 
-### Delete Comment (Replace 1 with actual comment ID)
+### Delete Comment
 DELETE {{host}}/posts/comments/1
+Authorization: Bearer {{access_token}}
 
 ### ============ PROFILE ============
 
 ### Get User Profile
 GET {{host}}/profile
+Authorization: Bearer {{access_token}}
 
 ### Update User Profile
 PATCH {{host}}/profile/update
+Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
@@ -122,5 +154,6 @@ Content-Type: application/json
 
 ### ============ TEST AFTER LOGOUT ============
 
-### Try protected route after logout
-GET {{host}}/api/me
+### Try protected route after logout (should return 401)
+GET {{host}}/feed
+Authorization: Bearer {{access_token}}

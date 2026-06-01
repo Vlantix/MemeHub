@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from db.queries.profile import get_user_profile_by_id, get_user_posts, get_total_likes, update_user_profile
+from db.queries.profile import get_user_profile_by_id, get_user_posts, get_total_likes, update_user_profile, get_total_posts
 from utils.decorators import login_required
 
 profile_bp = Blueprint('profile', __name__)
@@ -20,7 +20,7 @@ def get_user_profile():
 
     user_data = {
         "user_info": user_info,
-        "total_posts": len(get_user_posts(user_id, limit=0, offset=0)),
+        "total_posts": get_total_posts(user_id),
         "total_likes": sum(get_total_likes(post['id']) for post in user_posts)
     }
 

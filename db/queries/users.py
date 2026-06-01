@@ -3,15 +3,11 @@ from db.connection import get_db_connection, get_dict_cursor, close_db_connectio
 def create_account(display_name, username, email, password_hash):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
-    cursor.execute("""INSERT INTO users(
-                   display_name,
-                   username,
-                   email,
-                   password_hash
-                   ) VALUES (%s, %s, %s, %s)""", 
+    cursor.execute("""INSERT INTO users(display_name, username, email, password_hash)
+                   VALUES (%s, %s, %s, %s) RETURNING id""",
                    (display_name, username, email, password_hash))
+    user_id = cursor.fetchone()['id']
     conn.commit()
-    user_id = cursor.lastrowid
     close_db_connection(cursor, conn)
     return user_id
 

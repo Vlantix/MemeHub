@@ -6,12 +6,12 @@ def add_comment(user_id, post_id, content):
 
     try:
         cursor.execute("""INSERT INTO comments (user_id, post_id, content)
-                       VALUES (%s, %s, %s)""", (user_id, post_id, content))
-        
-        cursor.execute("UPDATE posts SET comment_count = comment_count + 1 WHERE id = %s", (post_id,))
+                       VALUES (%s, %s, %s) RETURNING id""", (user_id, post_id, content))
+        comment_id = cursor.fetchone()['id']
 
+        cursor.execute("UPDATE posts SET comment_count = comment_count + 1 WHERE id = %s", (post_id,))
+        
         conn.commit()
-        comment_id = cursor.lastrowid
         
         cursor.execute("""SELECT c.id, c.content, c.created_at, u.display_name
                        FROM comments c
@@ -21,7 +21,7 @@ def add_comment(user_id, post_id, content):
         return result
     
     except Exception as e:
-        print(f"Error adding comment: {e}")  # Log the error
+        print(f"Error adding comment: {e}")
         return None
     
     finally:
