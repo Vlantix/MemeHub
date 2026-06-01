@@ -2,9 +2,9 @@
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    display_name VARCHAR(80) NOT NULL UNIQUE,
-    username VARCHAR(80) NOT NULL UNIQUE,
-    email VARCHAR(80) NOT NULL UNIQUE,
+    display_name VARCHAR(80) NOT NULL,
+    username VARCHAR(80) NOT NULL,
+    email VARCHAR(80) NOT NULL,
     password_hash VARCHAR(250) NOT NULL,
     bio VARCHAR(128) DEFAULT 'No bio yet',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -20,6 +20,7 @@ CREATE TABLE posts(
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     image_filename VARCHAR(200) NOT NULL,
+    image_url TEXT,
     caption VARCHAR(100),
     category VARCHAR(50),
     tags VARCHAR(200),
@@ -68,7 +69,9 @@ CREATE TABLE saved_posts(
     post_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+
+    UNIQUE (user_id, post_id)
 );
 CREATE INDEX idx_saved_user_id ON saved_posts(user_id);
 CREATE INDEX idx_saved_post_id ON saved_posts(post_id);
