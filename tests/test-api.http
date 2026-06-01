@@ -1,5 +1,5 @@
 @host = http://127.0.0.1:5001
-@access_token = your_access_token_here
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJleHAiOjE3ODA5MjU2Mzd9.3pTP2VHgoSVGNcGJwygbC4nU-eTAe278QVSU6P_-xfs
 
 ### TEST CONNECTION
 GET {{host}}/test

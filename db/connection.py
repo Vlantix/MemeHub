@@ -3,9 +3,10 @@ import psycopg2.extras
 from config import Config
 
 def get_db_connection():
+    print(f"Attempting connection to: {Config.DATABASE_URL}")
     try:
         connection = psycopg2.connect(Config.DATABASE_URL)
-    except psycopg2.Error as err:
+    except Exception as err:
         print(f"Error: {err}")
         return None
     

@@ -11,7 +11,7 @@ from routes.comments import comments_bp
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = Config.SECRET_KEY
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000  # Limit upload size to 10MB
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000  
 
 # ==============================================
 #       BP ROUTE
