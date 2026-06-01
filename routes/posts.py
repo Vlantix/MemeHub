@@ -1,10 +1,9 @@
-from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Blueprint, jsonify, request
 from db.queries.posts import get_post, create_post, delete_post
 from utils.helper import allowed_file
 from utils.decorators import login_required
-from supabase import create_client
+from utils.storage import upload_image, delete_image
 
 
 posts_bp = Blueprint('posts', __name__)
@@ -27,58 +26,45 @@ def get_single_post(post_id):
 @posts_bp.route('/upload', methods=['POST'])
 @login_required
 def upload_meme():
+    user_id = request.user_id
+
     if 'meme_image' not in request.files:
-        return jsonify({
-            "error": "No file part",
-            "message": "No image selected"
-        }), 400
+        return jsonify({"error": "No file part", "message": "No image selected"}), 400
     
     file = request.files['meme_image']
 
     if not file or not allowed_file(file.filename):
-        return jsonify({
-            "error": "Invalid file type",
-            "message": "Only PNG, JPG, JPEG, WEBP files are allowed"
-        }), 400
-    
+        return jsonify({"error": "Invalid file type", "message": "Only PNG, JPG, JPEG, GIF, WEBP files are allowed"}), 400
+
     caption = request.form.get('caption', '')
     category = request.form.get('category', '')
     visibility = request.form.get('visibility', 'public')
     tags_list = request.form.getlist('tags')
     tags = ','.join(tags_list) if tags_list else None
 
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-
     filename = secure_filename(file.filename)
-    unique_filename = f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_{filename}"
-    filepath = os.path.join(UPLOAD_FOLDER, unique_filename)
-    file.save(filepath)
+    file_bytes = file.read()
+
+    uploaded = upload_image(file_bytes, filename)
+
+    if not uploaded:
+        return jsonify({"error": "Upload Failed", "message": "Failed to upload image"}), 500
 
     try:
         new_post = create_post(
-            user_id=session['user_id'],
+            user_id=user_id,
             caption=caption,
-            image_filename=unique_filename,
+            image_filename=uploaded["filename"],
+            image_url=uploaded["url"],
             category=category,
             visibility=visibility,
             tags=tags
         )
-
     except Exception as e:
-        if os.path.exists(filepath):
-            os.remove(filepath)
+        delete_image(uploaded["filename"])
+        return jsonify({"error": "Server Error", "message": str(e)}), 500
 
-        return jsonify({
-            "error": "Server Error",
-            "message": str(e)
-        }), 500
-
-    return jsonify({
-        "success": True,
-        "message": "Post uploaded successfully",
-        "data": new_post
-    }), 201
+    return jsonify({"success": True, "message": "Post uploaded successfully", "data": new_post}), 201
 
 @posts_bp.route('/delete_post/<int:post_id>', methods=['DELETE'])
 @login_required
@@ -87,36 +73,19 @@ def delete_meme(post_id):
 
     post = get_post(post_id)
 
-    if post is None:
-        return jsonify({
-            "error": "Post not found",
-            "message": f"No post found with ID {post_id}"
-        }), 404
+    if not post:
+        return jsonify({"error": "Post not found", "message": f"No post found with ID {post_id}"}), 404
     
-    if post and post['user_id'] == user_id:
-        try:
-            image_path = os.path.join(UPLOAD_FOLDER, post['image_filename'])
-            if os.path.exists(image_path):
-                os.remove(image_path)
-        except Exception as e:
-            return jsonify({
-                "error": "File Deletion Error",
-                "message": f"Post deleted but failed to delete image file: {str(e)}"
-            }), 500
+    if post['user_id'] != user_id:
+        return jsonify({"error": "Unauthorized", "message": "You can only delete your own posts"}), 403
 
-        post_deleted = delete_post(post_id, user_id)
-        if post_deleted:
-            return jsonify({
-                "success": True,
-                "message": "Post deleted successfully"
-            }), 200
-        else:
-            return jsonify({
-                "error": "Deletion Failed",
-                "message": "Failed to delete the post. Please try again."
-            }), 500
-    else:
-        return jsonify({
-            "error": "Unauthorized",
-            "message": "You can only delete your own posts"
-        }), 403
+    delete_image(post['image_filename'])
+
+    post_deleted = delete_post(post_id, user_id)
+    if post_deleted:
+        return jsonify({"success": True, "message": "Post deleted successfully"}), 200
+    
+    return jsonify({
+        "error": "Deletion Failed",
+        "message": "Failed to delete the post. Please try again."
+    }), 500
