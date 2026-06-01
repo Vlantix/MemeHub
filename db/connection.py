@@ -1,15 +1,11 @@
-import mysql.connector
+import psycopg2
+import psycopg2.extras
 from config import Config
 
 def get_db_connection():
     try:
-        connection = mysql.connector.connect(
-            host = Config.DB_HOST,
-            user = Config.DB_USER,
-            password = Config.DB_PASSWORD,
-            database = Config.DB_NAME
-        )
-    except mysql.connector.Error as err:
+        connection = psycopg2.connect(Config.DATABASE_URL)
+    except psycopg2.Error as err:
         print(f"Error: {err}")
         return None
     
@@ -17,7 +13,7 @@ def get_db_connection():
 
 def get_dict_cursor(connection):
     """Returns a dictionary cursor"""
-    return connection.cursor(dictionary=True)
+    return connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 def close_db_connection(cursor, conn):
     cursor.close()
