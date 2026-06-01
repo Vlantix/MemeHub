@@ -66,12 +66,6 @@ def get_post_comments(post_id):
 @login_required
 def edit_comment(comment_id):
     user_id = request.user_id
-
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
     
     data = request.get_json()
     content = data.get('content', '').strip()
@@ -97,12 +91,6 @@ def edit_comment(comment_id):
 @login_required
 def remove_comment(comment_id):
     user_id = request.user_id
-
-    if not user_id:
-        return jsonify({
-            "error": "Authentication Required!",
-            "message": "Session expired! Please login"
-        }), 401
     
     success = delete_comment(comment_id, user_id)
 

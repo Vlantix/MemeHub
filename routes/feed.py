@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request
 from db.queries.posts import get_posts, get_trending_posts
 from utils.helper import time_ago
 from utils.decorators import login_required
