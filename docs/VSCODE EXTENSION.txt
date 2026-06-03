@@ -1,7 +1,8 @@
 Error Lens
 Matterial Icon Theme
-One Dark Pro
+One Dark Pro Monokai
 Path Intellisense
 Prettier
 Python
 REST client
+Syntax Highlighter

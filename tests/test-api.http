@@ -1,5 +1,5 @@
 @host = http://127.0.0.1:5001
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJleHAiOjE3ODA5MjU2Mzd9.3pTP2VHgoSVGNcGJwygbC4nU-eTAe278QVSU6P_-xfs
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJleHAiOjE3ODExMDAxMDF9.w6SASz43RlueeTi1y9oEsyocgpCe6-P_PgBwxG5ZuJE
 
 ### TEST CONNECTION
 GET {{host}}/test
@@ -36,7 +36,7 @@ POST {{host}}/auth/logout
 ### ============ POSTS ============
 
 ### Get Single Post
-GET {{host}}/post/2
+GET {{host}}/post/1
 Authorization: Bearer {{access_token}}
 
 ### Get Feed Posts
