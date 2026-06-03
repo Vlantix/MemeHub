@@ -157,3 +157,80 @@ Content-Type: application/json
 ### Try protected route after logout (should return 401)
 GET {{host}}/feed
 Authorization: Bearer {{access_token}}
+
+### ============ PASSWORD RESET ============
+
+### Forgot Password (valid email)
+POST {{host}}/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "john@example.com"
+}
+
+### Forgot Password (email not in DB — should still return 200)
+POST {{host}}/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "notreal@example.com"
+}
+
+### Forgot Password (missing email — should return 400)
+POST {{host}}/auth/forgot-password
+Content-Type: application/json
+
+{}
+
+### Reset Password (paste token from email link here)
+@reset_token = PASTE_TOKEN_HERE
+
+POST {{host}}/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "{{reset_token}}",
+    "new_password": "newpassword123"
+}
+
+### Reset Password (same token again — should return 400, token already used)
+POST {{host}}/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "{{reset_token}}",
+    "new_password": "newpassword123"
+}
+
+### Reset Password (missing fields — should return 400)
+POST {{host}}/auth/reset-password
+Content-Type: application/json
+
+{}
+
+### Reset Password (password too short — should return 400)
+POST {{host}}/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "{{reset_token}}",
+    "new_password": "abc"
+}
+
+### Login with new password (should succeed)
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "johndoe",
+    "password": "newpassword123"
+}
+
+### Login with old password (should return 401)
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "johndoe",
+    "password": "123456"
+}

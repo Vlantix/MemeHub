@@ -3,7 +3,7 @@ from db.queries.users import get_username, get_email, create_account, find_user_
 from db.queries.reset_password import create_reset_token, consume_reset_token
 from utils.helper import check_password, set_password
 from utils.token import generate_access_token, generate_refresh_token, decode_token
-from utils.email import send_password_reset_email
+from utils.email import send_password_reset
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -150,7 +150,7 @@ def forgot_password():
 
     if user:
         raw_token = create_reset_token(user['id'])
-        send_password_reset_email(email, raw_token)
+        send_password_reset(email, raw_token)
 
     return jsonify({
         "message": "If an account with that email exists, a password reset link has been sent."        
