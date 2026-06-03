@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request, make_response
-from db.queries.users import get_username, get_email, create_account
+from db.queries.users import get_username, get_email, create_account, find_user_by_email
+from db.queries.reset_password import create_reset_token, consume_reset_token
 from utils.helper import check_password, set_password
 from utils.token import generate_access_token, generate_refresh_token, decode_token
+from utils.email import send_password_reset_email
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -17,18 +19,6 @@ def api_register():
     email = data.get('email', '').strip()
     password = data.get('password', '')
     confirm_password = data.get('confirm_password', '')
-    
-    if not all([display_name, username, email, password, confirm_password]):
-        return jsonify({
-            "error": "All fields are required",
-            "missing_fields": {
-                "display_name": not display_name,
-                "username": not username,
-                "email": not email,
-                "password": not password,
-                "confirm_password": not confirm_password
-            }
-        }), 400
     
     if not display_name:
         return jsonify({"error": "Display name is required"}), 400
@@ -147,3 +137,49 @@ def logout():
 
     response.delete_cookie("refresh_token")
     return response
+
+@auth_bp.route('/auth/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email', '').strip().lower()
+
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+    
+    user = find_user_by_email(email)
+
+    if user:
+        raw_token = create_reset_token(user['id'])
+        send_password_reset_email(email, raw_token)
+
+    return jsonify({
+        "message": "If an account with that email exists, a password reset link has been sent."        
+    }), 200
+
+@auth_bp.route('/auth/reset-password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    raw_token = data.get("token", "").strip()
+    new_password = data.get("new_password", "")
+
+    if not raw_token or not new_password:
+        return jsonify({"error": "Token and new password are required"}), 400
+
+    if len(new_password) < 6:
+        return jsonify({"error": "Password must be at least 6 characters"}), 400
+    
+    new_password_hash = set_password(new_password)
+    success = consume_reset_token(raw_token, new_password_hash)
+
+    if not success:
+        return jsonify({"error": "Invalid or expired token"}), 400
+    
+    return jsonify({
+        "success": True,
+        "message": "Password has been reset successfully"
+    }), 200
+
+
+
+
+
