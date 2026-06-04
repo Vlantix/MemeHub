@@ -1,6 +1,11 @@
 from db.connection import get_db_connection, get_dict_cursor, close_db_connection
 
 def add_comment(user_id, post_id, content):
+
+    if not content or not content.strip():
+        print("Error: Comment content cannot be empty")
+        return None
+
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 
@@ -21,6 +26,7 @@ def add_comment(user_id, post_id, content):
         return result
     
     except Exception as e:
+        conn.rollback()
         print(f"Error adding comment: {e}")
         return None
     
@@ -71,6 +77,11 @@ def delete_comment(comment_id, user_id):
         
         conn.commit()
         return True
+    
+    except Exception as e:
+        conn.rollback()
+        print(f"Error deleting comment: {e}")
+        return False
 
     finally:
         close_db_connection(cursor, conn)
@@ -89,6 +100,10 @@ def get_comment_count(post_id):
         close_db_connection(cursor, conn)
 
 def update_comment(comment_id, user_id, content):
+    if not content or not content.strip():
+        print("Error: Comment content cannot be empty")
+        return False
+
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 
@@ -96,6 +111,12 @@ def update_comment(comment_id, user_id, content):
         cursor.execute("UPDATE comments SET content = %s WHERE id = %s AND user_id = %s", (content, comment_id, user_id))
         conn.commit()
         return cursor.rowcount > 0 
+    
+    except Exception as e:
+        conn.rollback()
+        print(f"Error updating comment: {e}")
+        return False
+    
     finally:
         close_db_connection(cursor, conn)
     

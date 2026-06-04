@@ -58,3 +58,69 @@ A full-stack web application where users can share, discover, and manage memes. 
 ---
 
 ## Project Structure 📁
+
+MemeHub/
+├── app.py
+├── config.py
+├── docker-compose.yml
+├── Dockerfile
+├── postgresql_schema.sql
+├── requirements.txt
+├── schema.sql
+├── db/
+│   ├── connection.py
+│   └── queries/
+│       ├── comments.py
+│       ├── likes.py
+│       ├── posts.py
+│       ├── profile.py
+│       ├── reset_password.py
+│       └── users.py
+├── docs/
+│   ├── README.md
+│   ├── REST_API ERROR CODE.txt
+│   └── VSCODE EXTENSION.txt
+├── routes/
+│   ├── __init__.py
+│   ├── auth.py
+│   ├── comments.py
+│   ├── feed.py
+│   ├── likes.py
+│   ├── main.py
+│   ├── posts.py
+│   └── profile.py
+├── static/
+│   ├── css/
+│   │   ├── auth.css
+│   │   ├── base.css
+│   │   ├── components.css
+│   │   ├── feed.css
+│   │   ├── footer.css
+│   │   ├── landing.css
+│   │   ├── main.css
+│   │   ├── modal.css
+│   │   ├── navbar.css
+│   │   ├── profile.css
+│   │   ├── responsive.css
+│   │   ├── trending.css
+│   │   └── upload.css
+│   └── images/
+├── templates/
+│   ├── feed.html
+│   ├── index.html
+│   ├── login.html
+│   ├── profile.html
+│   ├── register.html
+│   ├── trending.html
+│   └── upload.html
+├── tests/
+│   ├── __init__.py
+│   ├── test_db.py
+│   └── test-api.http
+└── utils/
+    ├── __init__.py
+    ├── decorators.py
+    ├── email.py
+    ├── helper.py
+    ├── storage.py
+    └── token.py

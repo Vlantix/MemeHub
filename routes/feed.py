@@ -32,17 +32,20 @@ def get_feed():
 @login_required
 def trending():
     time_filters = {
-        'today': "p.created_at >= NOW() - INTERVAL '1 DAY'",
-        'week': "p.created_at >= NOW() - INTERVAL '7 DAY'",
-        'month': "p.created_at >= NOW() - INTERVAL '30 DAY'"
+        'today': '1 day',
+        'week':  '7 days',
+        'month': '30 days'
     }
-
+    
     try:
         timeframe = request.args.get('timeframe', 'today')
         limit = request.args.get('limit', 10, type=int)
-        time_filter = time_filters.get(timeframe, "1=1")
+        interval = time_filters.get(timeframe)
 
-        posts = get_trending_posts(time_filter, limit)
+        if not interval:
+            return jsonify({"error": "Invalid timeframe. Use: today, week, month"}), 400
+
+        posts = get_trending_posts(interval, limit)
 
         for post in posts:
             post['time_ago'] = time_ago(post['created_at'])

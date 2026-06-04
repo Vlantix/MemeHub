@@ -73,6 +73,7 @@ def get_like_status(post_id):
     }), 200
 
 @likes_bp.route('/posts/<int:post_id>/likes', methods=['GET'])
+@login_required
 def get_post_likes(post_id):
     limit = request.args.get('limit', 10, type=int)
     users = get_users_who_liked(post_id, limit)

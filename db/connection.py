@@ -3,12 +3,15 @@ import psycopg2.extras
 from config import Config
 
 def get_db_connection():
+    if not Config.DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not configured")
+
     print(f"Attempting connection to: {Config.DATABASE_URL}")
     try:
         connection = psycopg2.connect(Config.DATABASE_URL)
     except Exception as err:
         print(f"Error: {err}")
-        return None
+        raise
     
     return connection
 

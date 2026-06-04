@@ -16,7 +16,7 @@ def api_register():
     
     display_name = data.get('display_name', '').strip()
     username = data.get('username', '').strip()
-    email = data.get('email', '').strip()
+    email = data.get('email', '').strip().lower()
     password = data.get('password', '')
     confirm_password = data.get('confirm_password', '')
     
@@ -117,7 +117,7 @@ def token_refresh():
     if not refresh_token:
         return jsonify({"error": "Refresh token missing"}), 401
 
-    payload = decode_token(refresh_token)
+    payload = decode_token(refresh_token, expected_type="refresh")
     if not payload:
         return jsonify({"error": "Refresh token invalid or expired"}), 401
 

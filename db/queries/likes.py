@@ -1,46 +1,67 @@
 from db.connection import get_db_connection, get_dict_cursor, close_db_connection 
 
 def add_like(user_id, post_id):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+        
     try:
-        conn = get_db_connection()
-        cursor = get_dict_cursor(conn)
+        cursor.execute("""
+            INSERT INTO likes (user_id, post_id) 
+            VALUES (%s, %s)
+            ON CONFLICT (user_id, post_id) DO NOTHING
+            RETURNING id
+        """, (user_id, post_id))
         
-        cursor.execute("SELECT id FROM likes WHERE user_id = %s AND post_id = %s", (user_id, post_id))
-        existing_like = cursor.fetchone()
+        result = cursor.fetchone()
         
-        if existing_like:
-            return False  
-        
-        cursor.execute("INSERT INTO likes (user_id, post_id) VALUES (%s, %s)", (user_id, post_id))
-        
-        cursor.execute("UPDATE posts SET like_count = like_count + 1 WHERE id = %s", (post_id,))
-        
-        conn.commit()
-        return True
+        if result:
+            cursor.execute("UPDATE posts SET like_count = like_count + 1 WHERE id = %s", (post_id,))
+            conn.commit()
+            return True
+        else:
+            conn.rollback()
+            return False
 
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Error adding like: {e}")
+        return False
+    
     finally:
-        close_db_connection(cursor, conn)
+        if cursor and conn:
+            close_db_connection(cursor, conn)
 
 def remove_like(user_id, post_id):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
 
     try: 
-        cursor.execute("SELECT id FROM likes WHERE user_id = %s AND post_id = %s", (user_id, post_id))
-        existing_like = cursor.fetchone()
+        cursor.execute("""
+            DELETE FROM likes 
+            WHERE user_id = %s AND post_id = %s
+            RETURNING id
+        """, (user_id, post_id))
         
-        if not existing_like:
-            return False  
+        result = cursor.fetchone()
         
-        cursor.execute("DELETE FROM likes WHERE id = %s", (existing_like['id'],))
-        
-        cursor.execute("UPDATE posts SET like_count = like_count - 1 WHERE id = %s", (post_id,))
-        
-        conn.commit()
-        return True
+        if result:
+            cursor.execute("UPDATE posts SET like_count = like_count - 1 WHERE id = %s", (post_id,))
+            conn.commit()
+            return True
+        else:
+            conn.rollback()
+            return False
 
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Error removing like: {e}")
+        return False
+    
     finally:
-        close_db_connection(cursor, conn)
+        if cursor and conn:
+            close_db_connection(cursor, conn)
 
 def check_user_liked(user_id, post_id):
     conn = get_db_connection()

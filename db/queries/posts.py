@@ -28,10 +28,10 @@ def get_posts(limit, offset):
     close_db_connection(cursor, conn)
     return result
 
-def get_trending_posts(time_filter, limit):
+def get_trending_posts(interval, limit):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
-    cursor.execute(f"""
+    cursor.execute("""
         SELECT 
             p.id, 
             p.caption, 
@@ -43,10 +43,10 @@ def get_trending_posts(time_filter, limit):
             u.display_name
         FROM posts p
         JOIN users u ON p.user_id = u.id
-        WHERE {time_filter}
+        WHERE p.created_at >= NOW() - %s::interval
         ORDER BY (p.comment_count + p.like_count) DESC
         LIMIT %s
-    """, (limit,))
+    """, (interval, limit))
     result = cursor.fetchall()
     close_db_connection(cursor, conn)
     return result

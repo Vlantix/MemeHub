@@ -1,5 +1,5 @@
 from db.queries.comments import add_comment, get_comments, delete_comment, get_comment_count, update_comment
-from routes.posts import get_post
+from db.queries.posts import get_post
 from flask import Blueprint, jsonify, request
 from utils.decorators import login_required
 

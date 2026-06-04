@@ -17,6 +17,7 @@ def get_user_profile():
         }), 404
 
     user_posts = get_user_posts(user_id, limit=12, offset=0)
+    total_likes = get_total_likes(user_id)
 
     user_data = {
         "user_info": user_info,

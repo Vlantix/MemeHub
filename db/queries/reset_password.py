@@ -12,7 +12,7 @@ def create_reset_token(user_id: int) -> str:
     token_hash = _hash_token(raw_token)
     expires_at = datetime.utcnow() + timedelta(hours=1)
 
-    conn = get_db_connection
+    conn = get_db_connection()
     try:
         with conn.cursor() as cur:
             cur.execute("""
@@ -26,8 +26,10 @@ def create_reset_token(user_id: int) -> str:
                         user_id, token_hash, expires_at)
                         VALUES (%s, %s, %s)
                         """, (user_id, token_hash, expires_at))
+
+        conn.commit()
     except Exception:
-        conn.roolback()
+        conn.rollback()
         raise
     finally:
         conn.close()
