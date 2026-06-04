@@ -2,7 +2,7 @@
 ### SHARED CONFIGURATION
 ### ========================================
 @host = http://127.0.0.1:5001
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJleHAiOjE3ODEyMDg4MDl9.RxZdICKituOzTA7mwhGnimIaKMS9FRbQ9GL7JElX4IQ
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNjA4MzcxfQ.mJNM1Frc76b0zxvH3eJvBaJiuQauLYR8umAg3f989fQ
 @reset_token = PASTE_TOKEN_HERE
 
 ### Health Check

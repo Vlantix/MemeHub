@@ -8,9 +8,9 @@ POST {{host}}/auth/register
 Content-Type: application/json
 
 {
-    "display_name": "John Doe",
-    "username": "johndoe",
-    "email": "john@example.com",
+    "display_name": "Kent Shien",
+    "username": "kent12345",
+    "email": "bonzakent16@gmail.com",
     "password": "123456",
     "confirm_password": "123456"
 }
@@ -20,7 +20,7 @@ POST {{host}}/auth/login
 Content-Type: application/json
 
 {
-    "username": "johndoe",
+    "username": "kent12345",
     "password": "123456"
 }
 
