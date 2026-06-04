@@ -26,11 +26,3 @@ def get_email(email):
     result = cursor.fetchone()
     close_db_connection(cursor, conn)
     return result
-
-def find_user_by_email(email):
-    conn = get_db_connection()
-    cursor = get_dict_cursor(conn)
-    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-    result = cursor.fetchone()
-    close_db_connection(cursor, conn)
-    return result
