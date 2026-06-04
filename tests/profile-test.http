@@ -1,0 +1,19 @@
+### ========================================
+### PROFILE TESTS
+### ========================================
+@host = {{$dotenv HOST}}
+@access_token = {{$dotenv ACCESS_TOKEN}}
+
+### 1. Get Profile
+GET {{host}}/profile
+Authorization: Bearer {{access_token}}
+
+### 2. Update Profile
+PATCH {{host}}/profile/update
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "display_name": "John Doe Updated",
+    "bio": "This is my new bio!"
+}

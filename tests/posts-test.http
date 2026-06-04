@@ -1,0 +1,61 @@
+### ========================================
+### POSTS TESTS
+### ========================================
+@host = {{$dotenv HOST}}
+@access_token = {{$dotenv ACCESS_TOKEN}}
+
+### 1. Get Single Post
+GET {{host}}/post/1
+Authorization: Bearer {{access_token}}
+
+### 2. Get Feed
+GET {{host}}/feed
+Authorization: Bearer {{access_token}}
+
+### 3. Trending (today)
+GET {{host}}/trending?timeframe=today
+Authorization: Bearer {{access_token}}
+
+### 4. Trending (week)
+GET {{host}}/trending?timeframe=week
+Authorization: Bearer {{access_token}}
+
+### 5. Trending (month)
+GET {{host}}/trending?timeframe=month
+Authorization: Bearer {{access_token}}
+
+### 6. Upload Meme
+POST {{host}}/upload
+Authorization: Bearer {{access_token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="meme_image"; filename="meme.jpeg"
+Content-Type: image/jpeg
+
+< ./meme.jpeg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="caption"
+
+Check out this meme!
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="category"
+
+funny
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="visibility"
+
+public
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tags"
+
+funny
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tags"
+
+meme
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 7. Delete Post
+DELETE {{host}}/delete_post/2
+Authorization: Bearer {{access_token}}

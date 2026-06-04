@@ -1,0 +1,20 @@
+### ========================================
+### LIKES TESTS
+### ========================================
+@host = {{$dotenv HOST}}
+@access_token = {{$dotenv ACCESS_TOKEN}}
+
+### 1. Like Post
+POST {{host}}/posts/2/like
+Authorization: Bearer {{access_token}}
+
+### 2. Unlike Post
+POST {{host}}/posts/2/unlike
+Authorization: Bearer {{access_token}}
+
+### 3. Get Like Status
+GET {{host}}/posts/2/status
+Authorization: Bearer {{access_token}}
+
+### 4. Get Liked Users (Public)
+GET {{host}}/posts/2/likes

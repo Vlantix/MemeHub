@@ -1,0 +1,31 @@
+### ========================================
+### COMMENTS TESTS
+### ========================================
+@host = {{$dotenv HOST}}
+@access_token = {{$dotenv ACCESS_TOKEN}}
+
+### 1. Add Comment
+POST {{host}}/posts/2/comments
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "content": "This is a comment on the post!"
+}
+
+### 2. Get Comments
+GET {{host}}/posts/2/comments
+Authorization: Bearer {{access_token}}
+
+### 3. Update Comment
+PATCH {{host}}/posts/comments/1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "content": "This is my updated comment!"
+}
+
+### 4. Delete Comment
+DELETE {{host}}/posts/comments/1
+Authorization: Bearer {{access_token}}

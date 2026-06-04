@@ -1,0 +1,31 @@
+### ========================================
+### AUTHENTICATION TESTS
+### ========================================
+@host = {{$dotenv HOST}}
+
+### 1. Register User
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "display_name": "John Doe",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "password": "123456",
+    "confirm_password": "123456"
+}
+
+### 2. Login (copy access_token to config.http)
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "johndoe",
+    "password": "123456"
+}
+
+### 3. Refresh Token
+POST {{host}}/auth/refresh
+
+### 4. Logout
+POST {{host}}/auth/logout
