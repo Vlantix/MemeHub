@@ -16,6 +16,12 @@ CREATE TABLE users(
 );
 CREATE INDEX idx_users_created_at ON users(created_at);
 
+ALTER TABLE users
+ADD COLUMN profile_photo_url TEXT DEFAULT NULL,
+ADD COLUMN profile_photo_filename TEXT DEFAULT NULL,
+ADD COLUMN cover_photo_url TEXT DEFAULT NULL,
+ADD COLUMN cover_photo_filename TEXT DEFAULT NULL;
+
 CREATE TABLE posts(
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,

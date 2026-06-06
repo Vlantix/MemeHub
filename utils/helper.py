@@ -2,6 +2,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
 def set_password(password):
     """Hash the password and return the hash"""
@@ -35,6 +36,17 @@ def time_ago(date):
     else:
         return "Just now"
     
-    
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def validate_image(file):
+    if not file or file.filename == '':
+        return "No file provided"
+    if not allowed_file(file.filename):
+        return "Invalid file type. Allowed: png, jpg, jpeg, gif, webp"
+    file.seek(0, 2)
+    size = file.tell()
+    file.seek(0)
+    if size > MAX_FILE_SIZE:
+        return "File size must be under 5MB"
+    return None

@@ -4,8 +4,9 @@ def get_user_profile_by_id(user_id):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
     cursor.execute("""
-        SELECT id, display_name, username, email, bio 
-        FROM users 
+        SELECT id, display_name, username, email, bio,
+               profile_photo_url, cover_photo_url
+        FROM users
         WHERE id = %s
     """, (user_id,))
     result = cursor.fetchone()
@@ -55,3 +56,50 @@ def update_user_profile(user_id, display_name=None, bio=None):
     affected_rows = cursor.rowcount
     close_db_connection(cursor, conn)
     return affected_rows > 0
+
+def update_profile_photo(user_id, url, filename):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    try:
+        cursor.execute("""
+            UPDATE users
+            SET profile_photo_url = %s,
+                profile_photo_filename = %s
+            WHERE id = %s
+        """, (url, filename, user_id))
+        conn.commit()
+        return cursor.rowcount > 0
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        close_db_connection(cursor, conn)
+
+def update_cover_photo(user_id, url, filename):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    try:
+        cursor.execute("""
+            UPDATE users
+            SET cover_photo_url = %s,
+                cover_photo_filename = %s
+            WHERE id = %s
+        """, (url, filename, user_id))
+        conn.commit()
+        return cursor.rowcount > 0
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        close_db_connection(cursor, conn)
+
+def get_user_photo_filenames(user_id):
+    conn = get_db_connection()
+    cursor = get_dict_cursor(conn)
+    cursor.execute("""
+        SELECT profile_photo_filename, cover_photo_filename
+        FROM users WHERE id = %s
+    """, (user_id,))
+    result = cursor.fetchone()
+    close_db_connection(cursor, conn)
+    return result

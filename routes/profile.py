@@ -1,6 +1,13 @@
 from flask import Blueprint, jsonify, request
-from db.queries.profile import get_user_profile_by_id, get_user_posts, get_total_likes, update_user_profile, get_total_posts
+from db.queries.profile import (
+    get_user_profile_by_id, get_user_posts, get_total_likes,
+    update_user_profile, get_total_posts,
+    update_profile_photo, update_cover_photo, get_user_photo_filenames
+)
 from utils.decorators import login_required
+from utils.helper import validate_image
+from utils.storage import delete_image, upload_image
+
 
 profile_bp = Blueprint('profile', __name__)
 
@@ -22,7 +29,8 @@ def get_user_profile():
     user_data = {
         "user_info": user_info,
         "total_posts": get_total_posts(user_id),
-        "total_likes": sum(get_total_likes(post['id']) for post in user_posts)
+        "total_likes": total_likes,
+        "recent_posts": user_posts
     }
 
     return jsonify({
@@ -80,4 +88,59 @@ def update_user_info():
         }), 200
     else:
         return jsonify({"error": "Failed to update profile"}), 500
+    
+@profile_bp.route('/profile/photo', methods=['PATCH'])
+@login_required
+def update_profile_photo_route():
+    user_id = request.user_id
+
+    file = request.files.get('photo')
+    error = validate_image(file)
+    if error:
+        return jsonify({"error": error}), 400
+
+    file_bytes = file.read()
+    result = upload_image(file_bytes, file.filename)
+    if not result:
+        return jsonify({"error": "Failed to upload image"}), 500
+
+    filenames = get_user_photo_filenames(user_id)
+    if filenames and filenames.get('profile_photo_filename'):
+        delete_image(filenames['profile_photo_filename'])
+
+    update_profile_photo(user_id, result['url'], result['filename'])
+
+    return jsonify({
+        "success": True,
+        "message": "Profile photo updated successfully",
+        "profile_photo_url": result['url']
+    }), 200
+
+
+@profile_bp.route('/profile/cover', methods=['PATCH'])
+@login_required
+def update_cover_photo_route():
+    user_id = request.user_id
+
+    file = request.files.get('photo')
+    error = validate_image(file)
+    if error:
+        return jsonify({"error": error}), 400
+
+    file_bytes = file.read()
+    result = upload_image(file_bytes, file.filename)
+    if not result:
+        return jsonify({"error": "Failed to upload image"}), 500
+
+    filenames = get_user_photo_filenames(user_id)
+    if filenames and filenames.get('cover_photo_filename'):
+        delete_image(filenames['cover_photo_filename'])
+
+    update_cover_photo(user_id, result['url'], result['filename'])
+
+    return jsonify({
+        "success": True,
+        "message": "Cover photo updated successfully",
+        "cover_photo_url": result['url']
+    }), 200
 

@@ -17,3 +17,73 @@ Content-Type: application/json
     "display_name": "John Doe Updated",
     "bio": "This is my new bio!"
 }
+
+### 3. Update Profile (No changes - 400)
+PATCH {{host}}/profile/update
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "display_name": "John Doe Updated",
+    "bio": "This is my new bio!"
+}
+
+### 4. Update Profile (Display name too short - 400)
+PATCH {{host}}/profile/update
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "display_name": "Jo"
+}
+
+### 5. Update Profile (Bio too long - 400)
+PATCH {{host}}/profile/update
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "bio": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+
+### === PHOTO UPLOAD ===
+
+### 6. Update Profile Photo
+PATCH {{host}}/profile/photo
+Authorization: Bearer {{access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+< ./profile.jpg
+--boundary--
+
+### 7. Update Cover Photo
+PATCH {{host}}/profile/cover
+Authorization: Bearer {{access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary--
+
+### 8. Update Profile Photo (No file - 400)
+PATCH {{host}}/profile/photo
+Authorization: Bearer {{access_token}}
+
+### 9. Update Profile Photo (Invalid file type - 400)
+PATCH {{host}}/profile/photo
+Authorization: Bearer {{access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="document.pdf"
+Content-Type: application/pdf
+
+< ./document.pdf
+--boundary--
