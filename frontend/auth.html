@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <title>MemeHub - Auth</title>
+</head>
+<body class="auth-page">
+
+    <!-- ==================== LOGIN VIEW ==================== -->
+    <div id="view-login" class="auth-view">
+        <div class="login-container">
+            <div class="logo-wrapper">
+                <img src="assets/images/memehub_logo.png" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </div>
+
+            <div class="welcome-text">Welcome back!</div>
+            <div class="subtitle">Log in to your account.</div>
+
+            <div id="login-error" class="flash-message flash-error" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Enter your password">
+                <div class="forgot-password">
+                    <a href="#" id="goto-forgot">Forgot Password?</a>
+                </div>
+            </div>
+
+            <button class="login-btn" id="btn-login">Log In</button>
+
+            <div class="divider"><span>OR</span></div>
+
+            <div class="signup-link">
+                Don't have an account? <a href="#" id="goto-register">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== REGISTER VIEW ==================== -->
+    <div id="view-register" class="auth-view" style="display:none;">
+        <div class="register-container">
+            <div class="logo-wrapper">
+                <img src="assets/images/memehub_logo.png" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </div>
+
+            <div class="welcome-text">Join the meme community today!</div>
+            <div class="subtitle">Create your account to get started.</div>
+
+            <div id="register-error" class="flash-message flash-error" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="reg-display-name">Display Name</label>
+                <input type="text" id="reg-display-name" placeholder="Your display name">
+            </div>
+
+            <div class="form-group">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" placeholder="Enter a username">
+            </div>
+
+            <div class="form-group">
+                <label for="reg-email">Email</label>
+                <input type="text" id="reg-email" placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" placeholder="Create a password">
+            </div>
+
+            <div class="form-group">
+                <label for="reg-confirm-password">Confirm Password</label>
+                <input type="password" id="reg-confirm-password" placeholder="Re-enter password">
+            </div>
+
+            <button class="register-btn" id="btn-register">Create Account</button>
+
+            <div class="login-link">
+                Already have an account? <a href="#" id="goto-login">Log in here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FORGOT PASSWORD VIEW ==================== -->
+    <div id="view-forgot" class="auth-view" style="display:none;">
+        <div class="login-container">
+            <div class="logo-wrapper">
+                <img src="assets/images/memehub_logo.png" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </div>
+
+            <div class="welcome-text">Forgot Password?</div>
+            <div class="subtitle">Enter your email and we'll send you a reset code.</div>
+
+            <div id="forgot-error" class="flash-message flash-error" style="display:none;"></div>
+            <div id="forgot-success" class="flash-message flash-success" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="forgot-email">Email</label>
+                <input type="text" id="forgot-email" placeholder="Enter your email">
+            </div>
+
+            <button class="login-btn" id="btn-forgot">Send Reset Code</button>
+
+            <div class="login-link">
+                Remember your password? <a href="#" id="forgot-goto-login">Log in here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VERIFY OTP VIEW ==================== -->
+    <div id="view-verify-otp" class="auth-view" style="display:none;">
+        <div class="login-container">
+            <div class="logo-wrapper">
+                <img src="assets/images/memehub_logo.png" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </div>
+
+            <div class="welcome-text">Check your email</div>
+            <div class="subtitle">Enter the 6-digit code we sent you.</div>
+
+            <div id="otp-error" class="flash-message flash-error" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="otp-code">Verification Code</label>
+                <input type="text" id="otp-code" placeholder="Enter 6-digit code" maxlength="6">
+            </div>
+
+            <button class="login-btn" id="btn-verify-otp">Verify Code</button>
+
+            <div class="login-link">
+                Didn't receive a code? <a href="#" id="otp-goto-forgot">Resend</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== RESET PASSWORD VIEW ==================== -->
+    <div id="view-reset-password" class="auth-view" style="display:none;">
+        <div class="login-container">
+            <div class="logo-wrapper">
+                <img src="assets/images/memehub_logo.png" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </div>
+
+            <div class="welcome-text">Set New Password</div>
+            <div class="subtitle">Choose a strong password for your account.</div>
+
+            <div id="reset-error" class="flash-message flash-error" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="reset-new-password">New Password</label>
+                <input type="password" id="reset-new-password" placeholder="Enter new password">
+            </div>
+
+            <div class="form-group">
+                <label for="reset-confirm-password">Confirm Password</label>
+                <input type="password" id="reset-confirm-password" placeholder="Re-enter new password">
+            </div>
+
+            <button class="login-btn" id="btn-reset-password">Reset Password</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/features/auth/login.js"></script>
+    <script type="module" src="js/features/auth/register.js"></script>
+    <script type="module" src="js/features/auth/reset-password.js"></script>
+</body>
+</html>

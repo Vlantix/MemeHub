@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--GOOGLE FONTS-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!---------------->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <title>MemeHub - Upload </title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('feed') }}" class="logo-wrapper">
+                <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="{{ url_for('feed') }}">🏠 Home</a>
+                <a href="{{ url_for('trending') }}">🔥 Trending</a>
+                <a href="{{ url_for('upload') }}" class="active">📤 Upload</a>
+                <a href="{{ url_for('profile') }}">👤 Profile</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+                <a href="{{ url_for('profile') }}" class="nav-profile">
+                    <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="profile-pic">
+                </a>
+            </div>
+        </div>
+
+        <!--Shows on Mobile Screens-->
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('feed') }}">🏠 Home</a>
+            <a href="{{ url_for('trending') }}">🔥 Trending</a>
+            <a href="{{ url_for('upload') }}" class="active">📤 Upload</a>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    <div class="page-container upload-page">
+
+        <div class="upload-header">
+            <h1 class="page-title">Upload a Meme</h1>
+            <p class="page-subtitle">Share something hilarious with the community 🎭</p>
+        </div>
+
+        <div class="upload-grid">
+
+            <!-- LEFT: FORM -->
+            <div class="form-card">
+                <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data">
+                    <!-- Dropzone -->
+                    <label class="dropzone" for="file-input">
+                        <div class="dropzone-icon">🖼️</div>
+                        <h4>Drop your meme here</h4>
+                        <p>Supports PNG, JPG, GIF, WEBp· Max 10MB</p>
+                        <span class="dropzone-btn">Browse Files</span>
+                    </label>
+                    <input type="file" name="meme_image" id="file-input" class="file-input" accept="image/*">
+
+                    <!-- Caption -->
+                    <div class="form-group">
+                        <label for="caption">Caption</label>
+                        <textarea id="caption" name="caption" rows="3" placeholder="Write a caption for your meme..."></textarea>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <div class="select-wrap">
+                            <select id="category" name="category">
+                                <option value="" disabled selected>Select a category</option>
+                                <option>😂 Funny</option>
+                                <option>🎮 Gaming</option>
+                                <option>🐾 Animals</option>
+                                <option>💀 Dark Humor</option>
+                                <option>❤️ Wholesome</option>
+                                <option>😬 Cringe</option>
+                                <option>💼 Work Life</option>
+                                <option>🤯 Relatable</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="form-group">
+                        <label class="tag-label">Tags <span class="tag-hint">(pick up to 5)</span></label>
+                        <div class="tag-options">
+                            <button type="button" class="tag-option">#Funny</button>
+                            <button type="button" class="tag-option">#Relatable</button>
+                            <button type="button" class="tag-option">#Gaming</button>
+                            <button type="button" class="tag-option">#Animals</button>
+                            <button type="button" class="tag-option">#Fails</button>
+                            <button type="button" class="tag-option">#Wholesome</button>
+                            <button type="button" class="tag-option">#DevLife</button>
+                            <button type="button" class="tag-option">#Cringe</button>
+                        </div>
+                        <input type="hidden" name="tags" id="selected-tags" value="">
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="form-group">
+                        <label>Visibility</label>
+                        <div class="visibility-options">
+                            <label class="visibility-option active">
+                                <input type="radio" name="visibility" value="public" checked>
+                                <span>🌍 Public</span>
+                            </label>
+                            <label class="visibility-option">
+                                <input type="radio" name="visibility" value="followers">
+                                <span>👥 Followers</span>
+                            </label>
+                            <label class="visibility-option">
+                                <input type="radio" name="visibility" value="private">
+                                <span>🔒 Private</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="upload-btn">Publish Meme</button>
+                </form>
+            </div>
+
+            <!-- RIGHT: PREVIEW + TIPS -->
+            <div class="right-col">
+
+                <!-- Preview -->
+                <div class="side-card">
+                    <h3>Preview</h3>
+                    <div class="preview-box">
+                        <span>🖼️</span>
+                        <p>No image selected</p>
+                    </div>
+                    
+                    <div class="preview-meta">
+                        <div><strong>Posted by</strong> @{{ session.username }}</div>
+                        <div><strong>Category</strong> <span id="preview-category">Not selected</span></div>
+                        <div><strong>Visibility</strong> <span id="preview-visibility">🌍 Public</span></div>
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div class="side-card">
+                    <h3>💡 Tips for more upvotes</h3>
+                    <div class="tip-item">
+                        <span class="tip-icon">🖼️</span>
+                        Use high quality images — blurry memes get downvoted fast
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✍️</span>
+                        Keep captions punchy and short — under 10 words works best
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">#️⃣</span>
+                        Add relevant tags to reach the right audience
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">⏰</span>
+                        Post between 6–10 PM for maximum visibility
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">🎭</span>
+                        Original memes outperform reposts every time
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MemeHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // =============== FLASH MESSAGE AUTO-FADE =================
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            
+            flashMessages.forEach(function(message) {
+                if (message.classList.contains('flash-error')) {
+                    setTimeout(function() {
+                        message.classList.add('fade-out');
+                        setTimeout(function() {
+                            if (message.parentNode) {
+                                message.remove();
+                            }
+                        }, 500);
+                    }, 3000);
+                }
+            });
+        });
+
+        // TAGS SELECTION (max 5)
+        const tagOptions = document.querySelectorAll('.tag-option');
+        const selectedTagsInput = document.getElementById('selected-tags');
+        let selectedTags = [];
+
+        tagOptions.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tag = button.textContent.replace('#', '');
+                
+                if (button.classList.contains('selected')) {
+                    button.classList.remove('selected');
+                    selectedTags = selectedTags.filter(t => t !== tag);
+                } else {
+                    if (selectedTags.length < 5) {
+                        button.classList.add('selected');
+                        selectedTags.push(tag);
+                    } else {
+                        alert('You can only select up to 5 tags');
+                    }
+                }
+                selectedTagsInput.value = selectedTags.join(',');
+            });
+        });
+
+        // VISIBILITY OPTIONS
+        const options = document.querySelectorAll(".visibility-option");
+        options.forEach(option => {
+            option.addEventListener("click", () => {
+                options.forEach(o => o.classList.remove("active"));
+                option.classList.add("active");
+            });
+        });
+
+        // IMAGE PREVIEW
+        const fileInput = document.getElementById('file-input');
+        const previewBox = document.querySelector('.preview-box');
+        
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewBox.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // CATEGORY & VISIBILITY PREVIEW
+        const category = document.getElementById('category');
+        const visPreview = document.getElementById('preview-visibility');
+
+        category.addEventListener('change', function() {
+            const previewCat = document.getElementById('preview-category');
+            previewCat.textContent = category.options[category.selectedIndex].text;
+        });
+
+        document.querySelectorAll('input[name="visibility"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    visPreview.textContent = this.nextElementSibling.textContent;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

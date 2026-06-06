@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <title>MemeHub - Trending</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('feed') }}" class="logo-wrapper">
+                <img src="{{ url_for('static', filename='images/memehub_logo.png') }}" alt="MemeHub Logo" class="logo-image">
+                <span class="logo-text">Meme<span>Hub</span></span>
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('feed') }}">🏠 Home</a>
+                <a href="{{ url_for('trending') }}" class="active">🔥 Trending</a>
+                <a href="{{ url_for('upload') }}">📤 Upload</a>
+                <a href="{{ url_for('profile') }}">👤 Profile</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="{{ url_for('logout') }}" class="logout-text" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+                <a href="{{ url_for('profile') }}" class="nav-profile">
+                    <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="profile-pic">
+                </a>
+            </div>
+        </div>
+
+        <!--Shows on Mobile Screens-->
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('feed') }}">🏠 Home</a>
+            <a href="{{ url_for('trending') }}" class="active">🔥 Trending</a>
+            <a href="{{ url_for('upload') }}">📤 Upload</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+
+            <h1 class="page-title">🔥 Trending</h1>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active">Today</button>
+                <button class="filter-tab">This Week</button>
+                <button class="filter-tab">This Month</button>
+                <button class="filter-tab">All Time</button>
+            </div>
+
+            <!-- Top 3 Rank Banners -->
+            <div class="rank-banner">
+                <div class="rank-number gold">#1</div>
+                <div class="rank-info">
+                    <h4>Damn you food</h4>
+                    <p>by @dank_memer · 2 hours ago</p>
+                </div>
+                <div class="rank-stat">
+                    <span class="upvotes">❤️ 12.3K</span>
+                    <span class="comments">💬 456 comments</span>
+                </div>
+            </div>
+
+            <div class="rank-banner">
+                <div class="rank-number silver">#2</div>
+                <div class="rank-info">
+                    <h4>"I rest my case, Your Honor"</h4>
+                    <p>by @gaming_lord · 4 hours ago</p>
+                </div>
+                <div class="rank-stat">
+                    <span class="upvotes">❤️ 12.3K</span>
+                    <span class="comments">💬 456 comments</span>
+                </div>
+            </div>
+
+            <div class="rank-banner">
+                <div class="rank-number bronze">#3</div>
+                <div class="rank-info">
+                    <h4>The Jäger-Bomber</h4>
+                    <p>by @midnight_memes · 6 hours ago</p>
+                </div>
+                <div class="rank-stat">
+                    <span class="upvotes">❤️ 12.3K</span>
+                    <span class="comments">💬 456 comments</span>
+                </div>
+            </div>
+
+            <div class="feed">
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>@dank_memer</h4>
+                            <p>2 hours ago</p>
+                        </div>
+                        <span class="trending-badge">🔥 #1 Today</span>
+                    </div>
+                    <div class="post-content">
+                        <p>Damn you food</p>
+                        <div class="post-image">
+                            <img src="{{ url_for('static', filename='images/meme4.jpg') }}" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">#tags</span>
+                            <span class="post-tag">#tags</span>
+                            <span class="post-tag">#tags</span>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>🤍 12.3</span>
+                        <span>💬 678</span>
+                        <span>📌 Save</span>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>@gaming_lord</h4>
+                            <p>4 hours ago</p>
+                        </div>
+                        <span class="trending-badge">🔥 #2 Today</span>
+                    </div>
+                    <div class="post-content">
+                        <p>"I rest my case, Your Honor"</p>
+                        <div class="post-image">
+                            <img src="{{ url_for('static', filename='images/meme2.jpg') }}" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">#meme</span>
+                            <span class="post-tag">#gaming</span>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>🤍 12.3</span>
+                        <span>💬 678</span>
+                        <span>📌 Save</span>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                        </div>
+                        <div class="post-info">
+                            <h4>@midnight_memes</h4>
+                            <p>6 hours ago</p>
+                        </div>
+                        <span class="trending-badge">🔥 #3 Today</span>
+                    </div>
+                    <div class="post-content">
+                        <p></p>
+                        <div class="post-image">
+                            <img src="{{ url_for('static', filename='images/meme6.jpg') }}" alt="Meme Image">
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">funny</span>
+                            <span class="post-tag">meme</span>
+                            <span class="post-tag">random</span>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span>🤍 12.3</span>
+                        <span>💬 678</span>
+                        <span>📌 Save</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <!-- Trending Tags Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Trending Tags</h3>
+                <div class="tags">
+                    <span class="tag active">#Meme</span>
+                    <span class="tag">#Funny</span>
+                    <span class="tag">#Gaming</span>
+                    <span class="tag">#Animals</span>
+                    <span class="tag">#Relatable</span>
+                    <span class="tag">#Viral</span>
+                    <span class="tag">#Cringe</span>
+                </div>
+            </div>
+
+            <div class="widget">
+                <h3 class="widget-title">🏆 Top Creators</h3>
+                <div class="leaderboard-item">
+                    <div class="lb-rank gold">1</div>
+                    <div class="lb-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="lb-info">
+                        <h4>@dank_memer</h4>
+                        <p>19 memes this week</p>
+                    </div>
+                    <span class="lb-score">245K</span>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="lb-rank silver">2</div>
+                    <div class="lb-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="lb-info">
+                        <h4>@wholesome_dude</h4>
+                        <p>14 memes this week</p>
+                    </div>
+                    <span class="lb-score">189K</span>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="lb-rank bronze">3</div>
+                    <div class="lb-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="lb-info">
+                        <h4>@gaming_lord</h4>
+                        <p>10 memes this week</p>
+                    </div>
+                    <span class="lb-score">156K</span>
+                </div>
+            </div>
+
+            <!-- Suggested Creators Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Suggested Creators This Week</h3>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@stonks_only</h4>
+                        <p>12K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@memes_stealer</h4>
+                        <p>3.4K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+                <div class="creator-item">
+                    <div class="creator-avatar">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
+                    </div>
+                    <div class="creator-info">
+                        <h4>@fail_army_jake</h4>
+                        <p>5.6K followers</p>
+                    </div>
+                    <button class="creator-follow">Follow</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 MemeHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
