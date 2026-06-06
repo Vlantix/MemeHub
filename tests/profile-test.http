@@ -14,8 +14,8 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-    "display_name": "John Doe Updated",
-    "bio": "This is my new bio!"
+    "display_name": "Kent Shien Updated",
+    "bio": "I am BSIT Student in PHINMA UI!"
 }
 
 ### 3. Update Profile (No changes - 400)
@@ -24,8 +24,8 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-    "display_name": "John Doe Updated",
-    "bio": "This is my new bio!"
+    "display_name": "Kent Shien Updated",
+    "bio": "I am BSIT Student in PHINMA UI!"
 }
 
 ### 4. Update Profile (Display name too short - 400)
@@ -34,7 +34,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-    "display_name": "Jo"
+    "display_name": "ke"
 }
 
 ### 5. Update Profile (Bio too long - 400)
