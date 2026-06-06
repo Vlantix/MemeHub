@@ -27,13 +27,16 @@ def get_user_posts(user_id, limit, offset=0):
     close_db_connection(cursor, conn)
     return result
 
-def get_total_likes(post_id):
+def get_total_likes(user_id):
     conn = get_db_connection()
     cursor = get_dict_cursor(conn)
-    cursor.execute("SELECT like_count FROM posts WHERE id = %s", (post_id,))
+    cursor.execute("""
+        SELECT COALESCE(SUM(like_count), 0) as total
+        FROM posts WHERE user_id = %s
+    """, (user_id,))
     result = cursor.fetchone()
     close_db_connection(cursor, conn)
-    return result['like_count'] if result else 0
+    return result['total'] if result else 0
 
 def get_total_posts(user_id):
     conn = get_db_connection()

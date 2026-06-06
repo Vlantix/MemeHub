@@ -25,5 +25,4 @@ app.register_blueprint(likes_bp)
 app.register_blueprint(comments_bp)
 
 if __name__ == '__main__':
-    # Needed to Publish Live
     app.run(port=5001, debug=Config.DEBUG)
