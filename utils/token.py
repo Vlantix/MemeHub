@@ -30,3 +30,16 @@ def decode_token(token, expected_type="access"):
         return None
     except jwt.InvalidTokenError:
         return None
+    
+def generate_reset_session_token(user_id: int) -> str:
+    """
+    Short-lived token issued after OTP verification.
+    Passed by the client to /auth/reset-password to authorize the password change.
+    5-minute window — just long enough to fill the new-password form.
+    """
+    payload = {
+        "user_id": user_id,
+        "type": "password_reset",
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=5)
+    }
+    return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")

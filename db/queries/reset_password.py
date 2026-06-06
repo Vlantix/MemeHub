@@ -37,25 +37,24 @@ def create_otp(user_id: int) -> str:
 
     return raw_code
 
-def verify_otp(raw_code: str, new_password_hash: str) -> str:
-    """Mark token used and update the user's password atomically."""
+def verify_otp(raw_code: str) -> int | None:
+    """Validate OTP, mark it used, return user_id. Returns None if invalid/expired."""
     code_hash = _hash_code(raw_code)
 
     conn = get_db_connection()
-
     try:
         with conn.cursor() as cur:
             cur.execute("""
-                SELECT t.id, t.user_id
-                FROM password_reset_tokens t
-                WHERE t.token_hash = %s
-                  AND t.used = FALSE
-                  AND t.expires_at > NOW()
+                SELECT id, user_id
+                FROM password_reset_tokens
+                WHERE token_hash = %s
+                  AND used = FALSE
+                  AND expires_at > NOW()
             """, (code_hash,))
             row = cur.fetchone()
 
             if not row:
-                return False
+                return None
 
             token_id, user_id = row
 
@@ -63,12 +62,22 @@ def verify_otp(raw_code: str, new_password_hash: str) -> str:
                 UPDATE password_reset_tokens SET used = TRUE WHERE id = %s
             """, (token_id,))
 
+        conn.commit()
+        return user_id
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+def update_password(user_id: int, new_password_hash: str) -> None:
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
             cur.execute("""
                 UPDATE users SET password_hash = %s WHERE id = %s
             """, (new_password_hash, user_id))
-
         conn.commit()
-        return True
     except Exception:
         conn.rollback()
         raise
