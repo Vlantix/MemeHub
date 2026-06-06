@@ -3,14 +3,14 @@ import secrets
 from datetime import datetime, timedelta
 from db.connection import get_db_connection
 
-def _hash_token(token: str) -> str:
+def _hash_code(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
-def create_reset_token(user_id: int) -> str:
-    """Generate a token, store its hash, return the raw token."""
-    raw_token = secrets.token_urlsafe(32)
-    token_hash = _hash_token(raw_token)
-    expires_at = datetime.utcnow() + timedelta(hours=1)
+def create_otp(user_id: int) -> str:
+    """Generate a 6-digit OTP, store its hash, return the raw code."""
+    raw_code = str(secrets.randbelow(900_000) + 100_000)
+    code_hash = _hash_code(raw_code)
+    expires_at = datetime.utcnow() + timedelta(minutes=15)
 
     conn = get_db_connection()
     try:
@@ -25,7 +25,8 @@ def create_reset_token(user_id: int) -> str:
                         INSERT INTO password_reset_tokens(
                         user_id, token_hash, expires_at)
                         VALUES (%s, %s, %s)
-                        """, (user_id, token_hash, expires_at))
+                        """, (user_id, code_hash, expires_at))
+                    
 
         conn.commit()
     except Exception:
@@ -34,11 +35,11 @@ def create_reset_token(user_id: int) -> str:
     finally:
         conn.close()
 
-    return raw_token
+    return raw_code
 
-def consume_reset_token(raw_token: str, new_password_hash: str) -> str:
+def verify_otp(raw_code: str, new_password_hash: str) -> str:
     """Mark token used and update the user's password atomically."""
-    token_hash = _hash_token(raw_token)
+    code_hash = _hash_code(raw_code)
 
     conn = get_db_connection()
 
@@ -50,7 +51,7 @@ def consume_reset_token(raw_token: str, new_password_hash: str) -> str:
                 WHERE t.token_hash = %s
                   AND t.used = FALSE
                   AND t.expires_at > NOW()
-            """, (token_hash,))
+            """, (code_hash,))
             row = cur.fetchone()
 
             if not row:

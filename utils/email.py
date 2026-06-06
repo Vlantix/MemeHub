@@ -3,18 +3,17 @@ import os
 
 resend.api_key = os.getenv("RESEND_API_KEY")
 SENDER = os.getenv("RESEND_SENDER_EMAIL")
-BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
-def send_password_reset(to_email, raw_token):
-    reset_url = f"{BASE_URL}/auth/reset-password?token={raw_token}"
-
+def send_password_reset_otp(to_email: str, otp: str) -> None:
     resend.Emails.send({
         "from": SENDER,
         "to": to_email,
-        "subject": "Reset your MemeHub password",
+        "subject": "Your MemeHub account password reset code",
         "html": f"""
             <p>You requested a password reset.</p>
-            <p><a href="{reset_url}">Click here to reset your password</a></p>
-            <p>This link expires in <strong>1 hour</strong>. If you didn't request this, ignore this email.</p>
+            <p>Your verification code is:</p>
+            <h2 style="letter-spacing: 0.2em;">{otp}</h2>
+            <p>This code expires in <strong>15 minutes</strong>.
+               If you didn't request this, you can safely ignore this email.</p>
         """
     })
