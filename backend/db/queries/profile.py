@@ -1,4 +1,4 @@
-from db.connection import get_db_connection, get_dict_cursor, close_db_connection
+from backend.db.connection import get_db_connection, get_dict_cursor, close_db_connection
 
 def get_user_profile_by_id(user_id):
     conn = get_db_connection()

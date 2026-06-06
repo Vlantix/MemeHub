@@ -1,7 +1,7 @@
-from db.queries.comments import add_comment, get_comments, delete_comment, get_comment_count, update_comment
-from db.queries.posts import get_post
+from backend.db.queries.comments import add_comment, get_comments, delete_comment, get_comment_count, update_comment
+from backend.db.queries.posts import get_post
 from flask import Blueprint, jsonify, request
-from utils.decorators import login_required
+from backend.utils.decorators import login_required
 
 comments_bp = Blueprint('comments', __name__)
 

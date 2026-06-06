@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import request, jsonify
-from utils.token import decode_token
+from backend.utils.token import decode_token
 
 def login_required(f):
     @wraps(f)

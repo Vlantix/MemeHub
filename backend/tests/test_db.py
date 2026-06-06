@@ -1,4 +1,4 @@
-from db.connection import get_db_connection
+from backend.db.connection import get_db_connection
 
 def test_connection():
     """Test Supabase database connection"""

@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
-from db.queries.profile import (
+from backend.db.queries.profile import (
     get_user_profile_by_id, get_user_posts, get_total_likes,
     update_user_profile, get_total_posts,
     update_profile_photo, update_cover_photo, get_user_photo_filenames
 )
-from utils.decorators import login_required
-from utils.helper import validate_image
-from utils.storage import delete_image, upload_image
+from backend.utils.decorators import login_required
+from backend.utils.helper import validate_image
+from backend.utils.storage import delete_image, upload_image
 
 
 profile_bp = Blueprint('profile', __name__)

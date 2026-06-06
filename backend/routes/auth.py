@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request, make_response
-from db.queries.users import get_username, get_email, create_account
-from db.queries.reset_password import create_otp, verify_otp, update_password
-from utils.helper import check_password, set_password
-from utils.token import generate_access_token, generate_refresh_token, decode_token, generate_reset_session_token
-from utils.email import send_password_reset_otp
+from backend.db.queries.users import get_username, get_email, create_account
+from backend.db.queries.reset_password import create_otp, verify_otp, update_password
+from backend.utils.helper import check_password, set_password
+from backend.utils.token import generate_access_token, generate_refresh_token, decode_token, generate_reset_session_token
+from backend.utils.email import send_password_reset_otp
 
 auth_bp = Blueprint('auth', __name__)
 

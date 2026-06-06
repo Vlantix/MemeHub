@@ -1,4 +1,4 @@
-from db.connection import get_db_connection, get_dict_cursor, close_db_connection
+from backend.db.connection import get_db_connection, get_dict_cursor, close_db_connection
 
 def add_comment(user_id, post_id, content):
 
