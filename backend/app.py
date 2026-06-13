@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from config import Config
 from routes.main import landing_bp
 from routes.auth import auth_bp
@@ -11,7 +12,9 @@ from routes.comments import comments_bp
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = Config.SECRET_KEY
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000  
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000
+
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500"])
 
 # ==============================================
 #       BP ROUTE
