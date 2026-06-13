@@ -4,7 +4,7 @@
 // Redirects to auth.html if the user is not logged in.
 // ================================================
 
-import { getAccessToken, getUser, refreshAccessToken } from '../api/client.js';
+import { getAccessToken, getUser } from '../api/client.js';
 
 export async function requireAuth() {
     const token = getAccessToken();

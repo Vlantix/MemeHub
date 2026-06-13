@@ -5,14 +5,14 @@
 // ================================================
 
 import { post, setAccessToken, setUser } from '../../api/client.js';
-import { redirectIfLoggedIn } from '../../utils/auth-guard.js';
+import { redirectIfLoggedIn } from '../../utils/auth_guard.js';
 
 // ── DOM ───────────────────────────────────────
 const viewLogin = document.getElementById('view-login');
 const viewRegister = document.getElementById('view-register');
 const viewForgot = document.getElementById('view-forgot');
 
-const usernameInput = document.getElementById('login-username');
+const usernameOrEmailInput = document.getElementById('login-credential');
 const passwordInput = document.getElementById('login-password');
 const loginBtn = document.getElementById('btn-login');
 const loginError = document.getElementById('login-error');
@@ -36,6 +36,11 @@ if (mode === 'register') {
 }
 
 // ── Navigation links ──────────────────────────
+document.getElementById('goto-login').addEventListener('click', (e) => {
+    e.preventDefault();
+    showView('view-login');
+});
+
 document.getElementById('goto-register').addEventListener('click', (e) => {
     e.preventDefault();
     showView('view-register');
@@ -46,15 +51,20 @@ document.getElementById('goto-forgot').addEventListener('click', (e) => {
     showView('view-forgot');
 });
 
+document.getElementById('forgot-goto-login').addEventListener('click', (e) => {
+    e.preventDefault();
+    showView('view-login');
+});
+
 // ── Login submit ──────────────────────────────
 loginBtn.addEventListener('click', async () => {
-    const username = usernameInput.value.trim();
+    const usernameOrEmail = usernameOrEmailInput.value.trim();
     const password = passwordInput.value;
 
     loginError.style.display = 'none';
 
-    if (!username || !password) {
-        showError(loginError, 'Username and password are required');
+    if (!usernameOrEmail || !password) {
+        showError(loginError, 'Username/Email and password are required');
         return;
     }
 
@@ -62,7 +72,7 @@ loginBtn.addEventListener('click', async () => {
     loginBtn.disabled = true;
 
     try {
-        const res = await post('/auth/login', { username, password });
+        const res = await post('/auth/login', { usernameOrEmail, password });
         const data = await res.json();
 
         if (!res.ok) {
@@ -71,7 +81,7 @@ loginBtn.addEventListener('click', async () => {
         }
 
         setAccessToken(data.access_token);
-        setUser(data.user);
+        setUser(data.user)
         window.location.href = 'feed.html';
 
     } catch {
