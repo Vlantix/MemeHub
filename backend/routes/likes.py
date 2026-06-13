@@ -1,7 +1,7 @@
-from backend.db.queries.likes import add_like, remove_like, check_user_liked, get_post_like_count, get_users_who_liked
-from backend.db.queries.posts import get_post
+from db.queries.likes import add_like, remove_like, check_user_liked, get_post_like_count, get_users_who_liked
+from db.queries.posts import get_post
 from flask import Blueprint, jsonify, request
-from backend.utils.decorators import login_required
+from utils.decorators import login_required
 
 likes_bp = Blueprint('likes', __name__)
 

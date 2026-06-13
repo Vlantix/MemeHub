@@ -1,6 +1,6 @@
 import jwt
 from datetime import datetime, timedelta, timezone
-from backend.config import Config
+from config import Config
 
 def generate_access_token(user_id, username):
     payload = {

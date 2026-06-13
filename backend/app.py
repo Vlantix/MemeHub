@@ -1,12 +1,12 @@
 from flask import Flask
-from backend.config import Config
-from backend.routes.main import landing_bp
-from backend.routes.auth import auth_bp
-from backend.routes.feed import feed_bp
-from backend.routes.posts import posts_bp
-from backend.routes.profile import profile_bp
-from backend.routes.likes import likes_bp
-from backend.routes.comments import comments_bp
+from config import Config
+from routes.main import landing_bp
+from routes.auth import auth_bp
+from routes.feed import feed_bp
+from routes.posts import posts_bp
+from routes.profile import profile_bp
+from routes.likes import likes_bp
+from routes.comments import comments_bp
 
 app = Flask(__name__)
 

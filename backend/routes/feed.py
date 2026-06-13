@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
-from backend.db.queries.posts import get_posts, get_trending_posts
-from backend.utils.helper import time_ago
-from backend.utils.decorators import login_required
+from db.queries.posts import get_posts, get_trending_posts
+from utils.helper import time_ago
+from utils.decorators import login_required
 
 feed_bp = Blueprint('feed', __name__)
 

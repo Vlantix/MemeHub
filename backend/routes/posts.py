@@ -1,9 +1,9 @@
 from werkzeug.utils import secure_filename
 from flask import Blueprint, jsonify, request
-from backend.db.queries.posts import get_post, create_post, delete_post
-from backend.utils.helper import allowed_file
-from backend.utils.decorators import login_required
-from backend.utils.storage import upload_image, delete_image
+from db.queries.posts import get_post, create_post, delete_post
+from utils.helper import allowed_file
+from utils.decorators import login_required
+from utils.storage import upload_image, delete_image
 
 
 posts_bp = Blueprint('posts', __name__)

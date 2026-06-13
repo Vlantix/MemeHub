@@ -1,7 +1,7 @@
 import hashlib
 import secrets
 from datetime import datetime, timedelta
-from backend.db.connection import get_db_connection
+from db.connection import get_db_connection
 
 def _hash_code(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()

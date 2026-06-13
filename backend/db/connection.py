@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras
-from backend.config import Config
+from config import Config
 
 def get_db_connection():
     if not Config.DATABASE_URL:

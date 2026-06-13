@@ -1,4 +1,4 @@
-from backend.db.connection import get_db_connection, get_dict_cursor, close_db_connection
+from db.connection import get_db_connection, get_dict_cursor, close_db_connection
 
 def get_post(post_id):
     conn = get_db_connection()
