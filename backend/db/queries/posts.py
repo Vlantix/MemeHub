@@ -35,7 +35,8 @@ def get_trending_posts(interval, limit):
         SELECT 
             p.id, 
             p.caption, 
-            p.image_filename, 
+            p.image_url,
+            p.tags,
             p.created_at,
             p.comment_count, 
             p.like_count, 
