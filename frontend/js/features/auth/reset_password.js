@@ -20,7 +20,6 @@ const confirmPasswordInput = document.getElementById('reset-confirm-password');
 const resetBtn = document.getElementById('btn-reset-password');
 const resetError = document.getElementById('reset-error');
 
-// Carries the email across the 3 steps
 let pendingEmail = '';
 
 // ── Step 1: Send reset code ──────────────────────
@@ -63,7 +62,9 @@ forgotBtn.addEventListener('click', async () => {
     }
 });
 
-// ── Step 2: Verify OTP ────────────────────────────
+// Step 2: Verify OTP
+let pendingResetToken = '';
+
 verifyOtpBtn.addEventListener('click', async () => {
     const otp = otpInput.value.trim();
 
@@ -83,7 +84,7 @@ verifyOtpBtn.addEventListener('click', async () => {
     verifyOtpBtn.disabled = true;
 
     try {
-        const res = await post('/auth/verify-otp', { email: pendingEmail, otp });
+        const res = await post('/auth/verify-otp', { otp });
         const data = await res.json();
 
         if (!res.ok) {
@@ -91,6 +92,7 @@ verifyOtpBtn.addEventListener('click', async () => {
             return;
         }
 
+        pendingResetToken = data.reset_token;
         showView('view-reset-password');
 
     } catch {
@@ -101,13 +103,7 @@ verifyOtpBtn.addEventListener('click', async () => {
     }
 });
 
-// Resend → back to forgot view
-otpGotoForgot.addEventListener('click', (e) => {
-    e.preventDefault();
-    showView('view-forgot');
-});
-
-// ── Step 3: Set new password ──────────────────────
+// Step 3: Set new password
 resetBtn.addEventListener('click', async () => {
     const newPassword = newPasswordInput.value;
     const confirmPassword = confirmPasswordInput.value;
@@ -134,9 +130,8 @@ resetBtn.addEventListener('click', async () => {
 
     try {
         const res = await post('/auth/reset-password', {
-            email: pendingEmail,
-            otp: otpInput.value.trim(),
-            newPassword
+            reset_token: pendingResetToken,
+            new_password: newPassword
         });
         const data = await res.json();
 

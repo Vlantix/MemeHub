@@ -82,7 +82,10 @@ loginBtn.addEventListener('click', async () => {
     loginBtn.disabled = true;
 
     try {
-        const res = await post('/auth/login', { usernameOrEmail, password });
+        const res = await post('/auth/login', {
+            username_or_email: usernameOrEmail,
+            password
+        });
         const data = await res.json();
 
         if (!res.ok) {

@@ -73,13 +73,13 @@ def api_login():
     if not data:
         return jsonify({"error": "No data provided"}), 400
     
-    username = data.get('username', '').strip()
+    username_or_email = data.get('username_or_email', '').strip()
     password = data.get('password', '')
     
-    if not username or not password:
-        return jsonify({"error": "Username and password are required"}), 400
+    if not username_or_email or not password:
+        return jsonify({"error": "Username/email and password are required"}), 400
     
-    user = get_username(username)
+    user = get_username(username_or_email) or get_email(username_or_email)
     
     if not user or not check_password(user['password_hash'], password):
         return jsonify({"error": "Invalid credentials"}), 401
@@ -156,7 +156,7 @@ def forgot_password():
         "message": "If an account with that email exists, a reset code has been sent."
     }), 200
 
-@auth_bp.route('/auth/verify-reset-otp', methods=['POST'])
+@auth_bp.route('/auth/verify-otp', methods=['POST'])
 def verify_otp_route():
     data = request.get_json()
     otp = data.get('otp', '').strip()

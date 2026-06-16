@@ -72,7 +72,13 @@ registerBtn.addEventListener('click', async () => {
     registerBtn.disabled = true;
 
     try {
-        const res = await post('/auth/register', { displayName, username, email, password });
+        const res = await post('/auth/register', { 
+            display_name: displayName, 
+            username, 
+            email,
+            password,
+            confirm_password: confirmPassword
+        });
         const data = await res.json();
 
         if (!res.ok) {
