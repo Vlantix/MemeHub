@@ -1,4 +1,5 @@
 import { post } from '../../api/client.js';
+import { isValidEmail } from '../../utils/validators.js';
 
 const displayNameInput = document.getElementById('register-display-name');
 const usernameInput = document.getElementById('register-username');
@@ -17,7 +18,7 @@ registerBtn.addEventListener('click', async () => {
 
     registerError.style.display = 'none';
 
-    if (!displayName || !username || !email || !password || !confirmPassword) {
+    if (!displayName && !username && !email && !password && !confirmPassword) {
         showError(registerError, 'All fields are required');
         return;
     }
@@ -34,6 +35,11 @@ registerBtn.addEventListener('click', async () => {
 
     if (!email) {
         showError(registerError, 'Email is required');
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        showError(registerError, 'Please enter a valid email address');
         return;
     }
 

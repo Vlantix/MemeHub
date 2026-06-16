@@ -63,8 +63,18 @@ loginBtn.addEventListener('click', async () => {
 
     loginError.style.display = 'none';
 
-    if (!usernameOrEmail || !password) {
+    if (!usernameOrEmail && !password) {
         showError(loginError, 'Username/Email and password are required');
+        return;
+    }
+
+    if (!usernameOrEmail) {
+        showError(loginError, 'Username or email is required');
+        return;
+    }
+
+    if (!password) {
+        showError(loginError, 'Password is required');
         return;
     }
 
@@ -76,7 +86,7 @@ loginBtn.addEventListener('click', async () => {
         const data = await res.json();
 
         if (!res.ok) {
-            showError(loginError, data.error || 'Login failed');
+            showError(loginError, data.error || 'Invalid credentials. Please try again.');
             return;
         }
 
