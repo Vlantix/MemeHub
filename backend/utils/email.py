@@ -8,11 +8,11 @@ logger = logging.getLogger(__name__)
 
 if not Config.RESEND_API_KEY:
     raise ValueError("RESEND_API_KEY is not set in environment variables")
-if not Config.RESEND_EMAIL_SENDER:
+if not Config.RESEND_SENDER_EMAIL:
     raise ValueError("RESEND_EMAIL_SENDER is not set in environment variables")
 
 resend.api_key = Config.RESEND_API_KEY
-SENDER = Config.RESEND_EMAIL_SENDER
+SENDER = Config.RESEND_SENDER_EMAIL
 
 def send_password_reset_otp(to_email: str, otp: str) -> bool:
     """

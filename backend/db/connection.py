@@ -27,11 +27,16 @@ def validate_schema():
     for table in required_tables:
         cursor.execute("""
             SELECT EXISTS (
-                    SELECT FROM information.schema.tables
-                    WHERE table_name = &s
-                )
+                SELECT 1 
+                FROM information_schema.tables 
+                WHERE table_name = %s 
+                AND table_schema = 'public'
+            )
         """, (table,))
-        exists = cursor.fethcone()['exists']
+
+        result = cursor.fetchone()
+        exists = result['exists'] if result else False
+
         if not exists:
             missing_tables.append(table)
 
