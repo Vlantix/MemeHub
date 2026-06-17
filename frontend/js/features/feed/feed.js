@@ -25,11 +25,39 @@ function applyUserToNav(user) {
     }
 }
 
+// ── Skeleton post card ────────────────────────────
+function renderSkeletonCard() {
+    return `
+        <div class="post-card">
+            <div class="post-header">
+                <div class="avatar skeleton" style="width:48px;height:48px;"></div>
+                <div class="post-info">
+                    <h4 class="skeleton-text" style="width:45%;">&nbsp;</h4>
+                    <p class="skeleton-text" style="width:25%;">&nbsp;</p>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-image skeleton-line post-image-skeleton"></div>
+            </div>
+            <div class="post-stats">
+                <span class="skeleton-text" style="width:60px;">&nbsp;</span>
+                <span class="skeleton-text" style="width:80px;">&nbsp;</span>
+                <span class="skeleton-text" style="width:60px;">&nbsp;</span>
+            </div>
+        </div>
+    `;
+}
+
+function showSkeletonFeed(count = 3) {
+    feedLoading.style.display = 'none';
+    feedEmpty.style.display = 'none';
+    feedContainer.style.display = 'flex';
+    feedContainer.innerHTML = Array(count).fill(renderSkeletonCard()).join('');
+}
+
 // ── Load feed ────────────────────────────────────
 async function loadFeed() {
-    feedLoading.style.display = 'block';
-    feedContainer.style.display = 'none';
-    feedEmpty.style.display = 'none';
+    showSkeletonFeed();
 
     try {
         const res = await get('/feed?limit=20&offset=0');
@@ -52,8 +80,6 @@ async function loadFeed() {
     } catch {
         showFlash('Something went wrong loading the feed.', 'error');
         showEmptyState();
-    } finally {
-        feedLoading.style.display = 'none';
     }
 }
 

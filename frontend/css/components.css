@@ -315,6 +315,69 @@
     color: var(--accent);
 }
 
+.skeleton,
+.skeleton-text {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+}
+ 
+.skeleton-text {
+    color: transparent !important;
+    min-height: 1em;
+}
+ 
+.skeleton-text img {
+    visibility: hidden;
+}
+ 
+.skeleton::after,
+.skeleton-text::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 20%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.06) 80%,
+        transparent 100%
+    );
+    animation: shimmer 1.6s ease-in-out infinite;
+}
+ 
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+    .skeleton::after,
+    .skeleton-text::after { animation: none; }
+}
+ 
+/* Sizing helper for skeleton-only placeholder lines (e.g. stat numbers) */
+.skeleton-line {
+    height: 14px;
+    border-radius: var(--radius-sm);
+}
+ 
+/* Meme grid item placeholder (no img yet) */
+.meme-grid-item-skeleton {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+}
+ 
+/* Post card image placeholder before src is known */
+.post-image-skeleton {
+    width: 100%;
+    height: 360px;
+    border-radius: var(--radius-sm);
+}
+
 /* Flash Messages */
 .flash-container {
     position: fixed;

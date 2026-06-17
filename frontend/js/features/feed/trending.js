@@ -43,12 +43,56 @@ filterTabs.forEach(tab => {
     });
 });
 
+// ── Skeletons ─────────────────────────────────────
+function renderSkeletonBanner() {
+    return `
+        <div class="rank-banner">
+            <div class="rank-number skeleton-line" style="width:36px;height:32px;">&nbsp;</div>
+            <div class="rank-info">
+                <h4 class="skeleton-text" style="width:55%;">&nbsp;</h4>
+                <p class="skeleton-text" style="width:35%;">&nbsp;</p>
+            </div>
+            <div class="rank-stat">
+                <span class="upvotes skeleton-text" style="width:50px;">&nbsp;</span>
+                <span class="comments skeleton-text" style="width:70px;">&nbsp;</span>
+            </div>
+        </div>
+    `;
+}
+
+function renderSkeletonCard() {
+    return `
+        <div class="post-card">
+            <div class="post-header">
+                <div class="avatar skeleton" style="width:48px;height:48px;"></div>
+                <div class="post-info">
+                    <h4 class="skeleton-text" style="width:45%;">&nbsp;</h4>
+                    <p class="skeleton-text" style="width:25%;">&nbsp;</p>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-image skeleton-line post-image-skeleton"></div>
+            </div>
+            <div class="post-stats">
+                <span class="skeleton-text" style="width:60px;">&nbsp;</span>
+                <span class="skeleton-text" style="width:80px;">&nbsp;</span>
+                <span class="skeleton-text" style="width:60px;">&nbsp;</span>
+            </div>
+        </div>
+    `;
+}
+
+function showSkeletonTrending() {
+    trendingEmpty.style.display = 'none';
+    rankBanners.innerHTML = Array(3).fill(renderSkeletonBanner()).join('');
+    trendingContainer.style.display = 'flex';
+    trendingContainer.innerHTML = Array(3).fill(renderSkeletonCard()).join('');
+}
+
 // ── Load trending posts ──────────────────────────
 async function loadTrending(timeframe) {
-    trendingLoading.style.display = 'block';
-    trendingContainer.style.display = 'none';
-    trendingEmpty.style.display = 'none';
-    rankBanners.innerHTML = '';
+    trendingLoading.style.display = 'none';
+    showSkeletonTrending();
 
     try {
         const res = await get(`/trending?timeframe=${timeframe}&limit=10`);
@@ -66,12 +110,11 @@ async function loadTrending(timeframe) {
     } catch {
         showFlash('Something went wrong loading trending posts.', 'error');
         showEmptyState();
-    } finally {
-        trendingLoading.style.display = 'none';
     }
 }
 
 function showEmptyState() {
+    rankBanners.innerHTML = '';
     trendingContainer.style.display = 'none';
     trendingEmpty.style.display = 'block';
 }
