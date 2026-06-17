@@ -7,6 +7,7 @@ from db.queries.profile import (
 from utils.decorators import login_required
 from utils.helper import validate_image
 from utils.storage import delete_image, upload_image
+from utils.validators import *
 
 
 profile_bp = Blueprint('profile', __name__)
@@ -56,17 +57,17 @@ def update_user_info():
     
     display_name = data.get('display_name', '').strip()
     if display_name and display_name != current_user['display_name']:
-        if len(display_name) < 3:
-            return jsonify({"error": "Display name must be at least 3 characters"}), 400
-        if len(display_name) > 50:
-            return jsonify({"error": "Display name must be less than 50 characters"}), 400
+        valid, msg = validate_display_name(display_name)
+        if not valid:
+            return jsonify({"error": msg}), 400
         update_data['display_name'] = display_name
     
     # Handle bio
     if 'bio' in data:
         bio = data.get('bio', '').strip()
-        if len(bio) > 160:
-            return jsonify({"error": "Bio must be less than 160 characters"}), 400
+        valid, msg = validate_bio(bio)
+        if not valid:
+            return jsonify({"error": msg}), 400
         if bio != current_user.get('bio', ''):
             update_data['bio'] = bio
     

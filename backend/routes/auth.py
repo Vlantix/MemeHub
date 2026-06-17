@@ -4,8 +4,10 @@ from db.queries.reset_password import create_otp, verify_otp, update_password
 from utils.helper import check_password, set_password
 from utils.token import generate_access_token, generate_refresh_token, decode_token, generate_reset_session_token
 from utils.email import send_password_reset_otp
+from utils.validators import *
 from config import Config
 import logging
+
 
 auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger(__name__)
@@ -23,30 +25,26 @@ def api_register():
     password = data.get('password', '')
     confirm_password = data.get('confirm_password', '')
     
-    if not display_name:
-        return jsonify({"error": "Display name is required"}), 400
+    valid, msg = validate_display_name(display_name)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
+    valid, msg = validate_username(username)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
-    if not email:
-        return jsonify({"error": "Email is required"}), 400
-
-    if len(display_name) < 3:
-        return jsonify({"error": "Display name must be at least 3 characters"}), 400
+    valid, msg = validate_email(email)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
-    if len(username) < 3:
-        return jsonify({"error": "Username must be at least 3 characters"}), 400
-    
-    if '@' not in email or '.' not in email:
-        return jsonify({"error": "Invalid email format"}), 400
-    
-    if len(password) < 6:
-        return jsonify({"error": "Password must be at least 6 characters"}), 400
+    valid, msg = validate_password(password)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
     if password != confirm_password:
         return jsonify({"error": "Passwords do not match"}), 400
     
+    # Check if user already exists
     existing_user = get_username(username)
     if existing_user:
         return jsonify({"error": "Username is already taken"}), 409
@@ -55,6 +53,7 @@ def api_register():
     if existing_email:
         return jsonify({"error": "Email is already registered"}), 409
     
+    # Create account
     password_hash = set_password(password)
     user_id = create_account(display_name, username, email, password_hash)
     
@@ -160,8 +159,9 @@ def forgot_password():
     data = request.get_json()
     email = data.get('email', '').strip().lower()
 
-    if not email:
-        return jsonify({"error": "Email is required"}), 400
+    valid, msg = validate_email(email)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
     user = get_email(email)
 
@@ -206,11 +206,9 @@ def reset_password():
     reset_token = data.get("reset_token", "").strip()
     new_password = data.get("new_password", "")
 
-    if not reset_token or not new_password:
-        return jsonify({"error": "Token and new password are required"}), 400
-
-    if len(new_password) < 6:
-        return jsonify({"error": "Password must be at least 6 characters"}), 400
+    valid, msg = validate_password(new_password)
+    if not valid:
+        return jsonify({"error": msg}), 400
     
     payload = decode_token(reset_token, expected_type="password_reset")
 

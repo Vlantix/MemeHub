@@ -4,6 +4,7 @@ from db.queries.posts import get_post, create_post, delete_post
 from utils.helper import allowed_file
 from utils.decorators import login_required
 from utils.storage import upload_image, delete_image
+from utils.validators import *
 
 
 posts_bp = Blueprint('posts', __name__)
@@ -42,6 +43,18 @@ def upload_meme():
     tags_list = request.form.getlist('tags')
     tags = ','.join(tags_list) if tags_list else None
 
+    valid, msg = validate_caption(caption)
+    if not valid:
+        return jsonify({"error": msg}), 400
+    
+    valid, msg = validate_tags(tags_list)
+    if not valid:
+        return jsonify({"error": msg}), 400
+    
+    # Validate visibility
+    if visibility not in ['public', 'followers', 'private']:
+        return jsonify({"error": "Invalid visibility option"}), 400
+
     filename = secure_filename(file.filename)
     file_bytes = file.read()
 
@@ -62,9 +75,10 @@ def upload_meme():
         )
     except Exception as e:
         delete_image(uploaded["filename"])
-        return jsonify({"error": "Server Error", "message": str(e)}), 500
+        print(f"Database error: {e}")
+        return jsonify({"error": "Server Error", "message": "Failed to save post"}), 500
 
-    return jsonify({"success": True, "message": "Post uploaded successfully", "data": new_post}), 201
+    return jsonify({"success": True, "message": "Post uploaded successfully", "data": new_post}), 2
 
 @posts_bp.route('/delete_post/<int:post_id>', methods=['DELETE'])
 @login_required
