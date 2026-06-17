@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from config import Config
@@ -14,7 +15,15 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = Config.SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000
 
-CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500"])
+allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5500,http://127.0.0.1:5500').split(',')
+
+CORS(app, 
+     supports_credentials=True, 
+     origins=allowed_origins,
+     methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+     allow_headers=['Content-Type', 'Authorization', 'X-Requested-With']
+)
+
 
 # ==============================================
 #       BP ROUTE
