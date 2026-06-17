@@ -1,17 +1,35 @@
-# official base image
+# Dockerfile
 FROM python:3.12-slim
 
 # Set working directory
 WORKDIR /app
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+# Install system dependencies (for psycopg2, etc.)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy requirements first (for better caching)
 COPY requirements.txt .
 
-# Install Python packages (Python is already in the image)
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your application
-COPY app.py .
+# Copy application code
+COPY . .
 
-# Command to run when container starts
-CMD ["python3", "app.py"]
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Expose port
+EXPOSE 10000
+
+# Run the application
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--workers", "4", "wsgi:app"]
