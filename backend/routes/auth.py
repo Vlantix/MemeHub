@@ -4,8 +4,10 @@ from db.queries.reset_password import create_otp, verify_otp, update_password
 from utils.helper import check_password, set_password
 from utils.token import generate_access_token, generate_refresh_token, decode_token, generate_reset_session_token
 from utils.email import send_password_reset_otp
+import logging
 
 auth_bp = Blueprint('auth', __name__)
+logger = logging.getLogger(__name__)
 
 @auth_bp.route('/auth/register', methods=['POST'])
 def api_register():
@@ -149,8 +151,15 @@ def forgot_password():
     user = get_email(email)
 
     if user:
-        otp = create_otp(user['id'])
-        send_password_reset_otp(email, otp)
+        try:
+            otp = create_otp(user['id'])
+            email_sent = send_password_reset_otp(email, otp)
+
+            if not email_sent:
+                logger.error(f"Failed to send OTP to {email} but user exists")
+        
+        except Exception as e:
+            logger.error(f"Error in forgot password flow for {email}: {str(e)}")
 
     return jsonify({
         "message": "If an account with that email exists, a reset code has been sent."
