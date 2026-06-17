@@ -4,6 +4,7 @@ from db.queries.reset_password import create_otp, verify_otp, update_password
 from utils.helper import check_password, set_password
 from utils.token import generate_access_token, generate_refresh_token, decode_token, generate_reset_session_token
 from utils.email import send_password_reset_otp
+from config import Config
 import logging
 
 auth_bp = Blueprint('auth', __name__)
@@ -120,15 +121,29 @@ def token_refresh():
         return jsonify({"error": "Refresh token missing"}), 401
 
     payload = decode_token(refresh_token, expected_type="refresh")
+
     if not payload:
         return jsonify({"error": "Refresh token invalid or expired"}), 401
 
     new_access_token = generate_access_token(payload["user_id"], payload["username"])
 
-    return jsonify({
+    new_refresh_token = generate_refresh_token(payload["user_id"], payload["username"])
+
+    response = make_response(jsonify({
         "success": True,
         "access_token": new_access_token
-    }), 200
+    }), 200)
+
+    response.set_cookie(
+        "refresh_token",
+        new_refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="Strict",
+        max_age=Config.REFRESH_TOKEN_EXPIRY_DAYS * 24 * 60 * 60
+    )
+
+    return response
 
 @auth_bp.route('/auth/logout', methods=['POST'])
 def logout():
