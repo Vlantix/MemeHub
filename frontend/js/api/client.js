@@ -11,7 +11,7 @@ const BASE_URL = (() => {
     }
 
     // Production Development
-    return 'https://your-api-domain.com';
+    return 'https://memehub-services.onrender.com';
 })();
 
 // ── Token helpers ──────────────────────────────

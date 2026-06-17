@@ -8,18 +8,20 @@ import { getAccessToken, getUser } from '../api/client.js';
 
 const BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001' 
-    : 'https://your-api-domain.com';
+    : 'https://memehub-services.onrender.com';
 
 
 export async function requireAuth() {
     const token = getAccessToken();
     const user = getUser();
 
+    // No token at all — go to login
     if (!token && !user) {
         window.location.href = 'auth.html?mode=login';
         return null;
     }
 
+    // Token exists but may be expired — try a silent refresh
     if (!token && user) {
         const newToken = await tryRefresh();
         if (!newToken) {
@@ -33,7 +35,7 @@ export async function requireAuth() {
 
 async function tryRefresh() {
     try {
-        const res = await fetch(`${BASE_URL}/auth/refresh`, {
+        const res = await fetch('http://localhost:5001/auth/refresh', {
             method: 'POST',
             credentials: 'include',
         });
@@ -41,6 +43,7 @@ async function tryRefresh() {
         if (!res.ok) return null;
 
         const data = await res.json();
+
         const { setAccessToken } = await import('../api/client.js');
         setAccessToken(data.access_token);
         return data.access_token;
