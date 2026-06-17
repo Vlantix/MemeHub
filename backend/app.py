@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from config import Config
+from db.connection import validate_schema
 from routes.main import landing_bp
 from routes.auth import auth_bp
 from routes.feed import feed_bp
@@ -24,7 +25,6 @@ CORS(app,
      allow_headers=['Content-Type', 'Authorization', 'X-Requested-With']
 )
 
-
 # ==============================================
 #       BP ROUTE
 # ==============================================
@@ -36,5 +36,20 @@ app.register_blueprint(profile_bp)
 app.register_blueprint(likes_bp)
 app.register_blueprint(comments_bp)
 
+def validate_environtment():
+    """Validate all configurations before starting"""
+    try:
+        Config.validate()
+        validate_schema()
+
+        print("All validations passed!")
+        return True
+    except Exception as e:
+        print(f"Validation Failed: {e}")
+        return False
+
 if __name__ == '__main__':
-    app.run(port=5001, debug=Config.DEBUG)
+    if not validate_environtment():
+        exit(1)
+
+    app.run(port=Config.PORT, debug=Config.DEBUG)
