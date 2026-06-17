@@ -4,7 +4,15 @@
 // and automatic access token refresh
 // ================================================
 
-const BASE_URL = 'http://localhost:5001';
+const BASE_URL = (() => {
+    // Local Development
+    if (window.location.hostname === 'localhost') {
+        return 'http://localhost:5000/api';
+    }
+
+    // Production Development
+    return 'https://your-api-domain.com';
+})();
 
 // ── Token helpers ──────────────────────────────
 export function getAccessToken() {

@@ -13,5 +13,5 @@ class Config:
     SUPABASE_KEY = os.getenv("SUPABASE_KEY")
     SUPABASE_BUCKET = os.getenv("SUPABASE_BUCKET")
 
-    RESEND_API_KEY = None
-    RESEND_SENDER_EMAIL = None
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+    RESEND_SENDER_EMAIL = os.getenv("RESEND_SENDER_EMAIL")
