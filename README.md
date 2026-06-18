@@ -63,7 +63,7 @@ All routes that mutate or return user-specific data require a valid access token
 ---
 
 ## Architecture
-
+ 
 ```
 MemeHub/
 ├── backend/                 Flask REST API
@@ -85,8 +85,6 @@ MemeHub/
 │   │   ├── utils/time_ago.js     Relative timestamp formatting
 │   │   └── features/             Per-page logic (auth, feed, profile), each with an init()
 │   └── css/                     One stylesheet per page/component
-│
-└── docs/                     API error codes, internal notes
 ```
 
 Request flow: every protected frontend page calls `requireAuth()` on load. `client.js` attaches the JWT access token to outgoing requests. On a 401, the client silently calls `/auth/refresh` (which reads the httpOnly refresh cookie), gets a new access token, and retries the original request once. If refresh also fails, the user is redirected to login.
@@ -94,7 +92,7 @@ Request flow: every protected frontend page calls `requireAuth()` on load. `clie
 ---
 
 ## Running locally
-
+ 
 Backend
 ```bash
 cd backend
@@ -103,13 +101,32 @@ pip install -r requirements.txt
 cp .env.example .env   # fill in SECRET_KEY, DATABASE_URL, SUPABASE_*, RESEND_*
 python app.py           # runs on :5001, fails loudly if any required env var is missing
 ```
-
+ 
 Frontend
+ 
+Any static file server works, since this is plain HTML/CSS/JS with no build step.
+ 
+Option 1: Python's built-in server
 ```bash
 cd frontend
-# serve statically, e.g.:
 python -m http.server 5500
 ```
+ 
+Option 2: VS Code Live Server extension
+```
+Open the frontend/ folder in VS Code, right-click any .html file, and select "Open with Live Server."
+```
+ 
 The frontend auto-detects `localhost` and points API calls at `http://localhost:5001` instead of the production Render URL, no config needed to switch.
-
+ 
 ---
+
+## Roadmap
+
+- Comment UI (backend routes exist, frontend not yet built)
+- Notifications
+- Rate limiting on auth endpoints
+- Local Postgres dev mode (see `backend/docker-compose.yml`), so contributors can run the database without a Supabase account
+- Liked and Saved tabs on profile page (Memes tab is wired up, Liked and Saved are still placeholders)
+- UI polish and responsiveness improvements
+ 

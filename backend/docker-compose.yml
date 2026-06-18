@@ -1,3 +1,12 @@
+# --------------------------------------------------
+#
+#   LOCAL POSTGRES SUPPORT: PLANNED, NOT YET WIRED UP
+#   The app currently requires Supabase for DATABASE_URL,
+#   SUPABASE_KEY, and SUPABASE_BUCKET (see Config.validate()).
+#   This file is a starting point for a future local-only
+#   dev mode. See Roadmap in the README.
+#
+# --------------------------------------------------
 services:
   app:
     build: .
