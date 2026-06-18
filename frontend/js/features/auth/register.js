@@ -86,7 +86,7 @@ registerBtn.addEventListener('click', async () => {
             return;
         }
 
-        window.location.href = 'login.html';
+        window.location.href = 'auth.html';
     
     } catch {
         showError(registerError, 'Something went wrong. Please try again.');
