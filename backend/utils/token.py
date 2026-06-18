@@ -6,22 +6,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 def generate_access_token(user_id, username):
+    now = datetime.now(timezone.utc)
     payload = {
-        "user_id": user_id,
-        "username": username,
+        "user_id": str(user_id),
+        "username": str(username),
         "type": "access",
-        "issued_at": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=15)
+        "issued_at": int(now.timestamp()),
+        "exp": int((now + timedelta(minutes=15)).timestamp())
     }
     return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
 
 def generate_refresh_token(user_id, username):
+    now = datetime.now(timezone.utc)
     payload = {
-        "user_id": user_id,
-        "username": username,
+        "user_id": str(user_id),
+        "username": str(username),
         "type": "refresh",
-        "issued_at": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(days=1)
+        "issued_at": int(now.timestamp()),
+        "exp": int((now + timedelta(days=1)).timestamp())
     }
     return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
 
@@ -53,10 +55,11 @@ def generate_reset_session_token(user_id: int) -> str:
     Passed by the client to /auth/reset-password to authorize the password change.
     5-minute window — just long enough to fill the new-password form.
     """
+    now = datetime.now(timezone.utc)
     payload = {
-        "user_id": user_id,
+        "user_id": str(user_id),
         "type": "password_reset",
-        "issued_at": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=5)
+        "issued_at": int(now.timestamp()),
+        "exp": int((now + timedelta(minutes=5)).timestamp())
     }
     return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
