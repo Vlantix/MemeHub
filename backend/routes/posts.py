@@ -78,7 +78,7 @@ def upload_meme():
         print(f"Database error: {e}")
         return jsonify({"error": "Server Error", "message": "Failed to save post"}), 500
 
-    return jsonify({"success": True, "message": "Post uploaded successfully", "data": new_post}), 2
+    return jsonify({"success": True, "message": "Post uploaded successfully", "data": new_post}), 201
 
 @posts_bp.route('/delete_post/<int:post_id>', methods=['DELETE'])
 @login_required
