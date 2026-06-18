@@ -12,7 +12,7 @@ class Config:
     RESEND_API_KEY = os.getenv("RESEND_API_KEY")
     RESEND_SENDER_EMAIL = os.getenv("RESEND_SENDER_EMAIL")
     DEBUG = os.getenv("DEBUG", "False").upper() == "TRUE"
-    PORT = int(os.getenv("PORT", 10000))
+    PORT = int(os.getenv("PORT", 5001))
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 10 * 1000 * 1000))
 
     @classmethod
