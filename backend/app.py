@@ -31,7 +31,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = Config.SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1000
 
-allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5500,http://127.0.0.1:5500').split(',')
+allowed_origins = os.getenv('CORS_ORIGINS', 'http://localhost:5500,http://127.0.0.1:5500,https://memehub-v2.vercel.app').split(',')
 
 CORS(app, 
      supports_credentials=True, 
